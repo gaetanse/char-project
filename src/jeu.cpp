@@ -80,9 +80,9 @@ void jeu::boucle(fenetre &f){
             while(j_creer.testMapDeCase(Map.get_block(sf::Vector2f(j_creer.getPosition())))!=1){
                 j_creer.spawn();
             }
-            j_creer.donner_texture(texture_char);
+            j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
             j_creer.donner_texture_2(texture_dessus);
-            j_creer.donnerTaille_fenetre(f);
+            j_creer.donnerTaille_fenetre(f);///CHANGER ET DONNEZ JUSTE LES BONNES VALEURS
             liste_player.push_back(j_creer);
         }
 
@@ -102,7 +102,6 @@ void jeu::boucle(fenetre &f){
                 munition mun_creer;
                 mun_creer.donner_texture(texture_munition);
                 mun_creer.donner_pos_des(liste_player.at(z).getPosition(),sf::Vector2f(x,y));
-                std::cout << "x : " << x << " / " << "y : " << y << std::endl;
                 liste_munition.push_back(mun_creer);
             }
          }

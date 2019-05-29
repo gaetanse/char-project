@@ -13,7 +13,7 @@ float temps::recup_temps(){
     return cloack.getElapsedTime().asSeconds();
 }
 
-int temps::Wait_Temps(float sec){
+bool temps::Wait_Temps(float sec){
 
     if(this->i==0){
         this->temps_attente=sec;
@@ -24,15 +24,12 @@ int temps::Wait_Temps(float sec){
     this->temps_actuel = temp.asSeconds();
 
             if(this->temps_actuel>this->temps_attente){
-
                 this->reussi=true;
                 reset();
-                return 1;
-                ///détruire temps;
-
+                return true;
             }
             else{
-               // cout << "temps : " << this->temps_actuel << endl;
+				return false;
             }
 
 }

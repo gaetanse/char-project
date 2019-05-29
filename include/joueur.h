@@ -50,6 +50,15 @@ void donner_texture_2(sf::Texture &texture){
 
     bool tirer(){
 
+		if (t_reload.Wait_Temps(1.0)) {
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+
+		/*
         if(t_reload.Wait_Temps(1)==1)
             if(max_munition<1)
                 max_munition++;
@@ -60,7 +69,7 @@ void donner_texture_2(sf::Texture &texture){
             }
 
             return false;
-
+			*/
         }
 
         int testMapDeCase(int v){

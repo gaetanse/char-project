@@ -36,48 +36,6 @@ void bot::donner_texture_2(sf::Texture& texture) {
 int bot::getX() { return x; }
 int bot::getY() { return y; }
 
-void bot::deplace(float temps_recup) {
-
-
-
-	for (int a = dejafait; a < path.pathOk().size(); a++) {
-		if (path.pathOk().at(a) == 1) {
-			sprite.move(-1 * temps_recup * 5, 0);
-			if (t_anime.Wait_Temps(1) == 1) {
-				dejafait++;
-			}
-		}
-		else if (path.pathOk().at(a) == 2) {
-			if (t_anime.Wait_Temps(1) == 1) {
-				sprite.move(1 * temps_recup * 5, 0);
-				if (t_anime.Wait_Temps(1) == 1) {
-					dejafait++;
-				}
-			}
-		}
-		else if (path.pathOk().at(a) == 3) {
-			sprite.move(0, -1 * temps_recup * 5);
-			if (t_anime.Wait_Temps(1) == 1) {
-				dejafait++;
-			}
-		}
-		else if (path.pathOk().at(a) == 4) {
-			sprite.move(0, 1 * temps_recup * 5);
-			if (t_anime.Wait_Temps(1) == 1) {
-				dejafait++;
-			}
-		}
-		//sprite.move();
-	}
-
-
-
-
-	///parcourir le bon chemin
-
-
-}
-
 void bot::cherche_joueur(sf::Vector2f joueur, la_map Map) {
 
 	///trouver un chemin vers le joueur
@@ -94,10 +52,10 @@ void bot::cherche_joueur(sf::Vector2f joueur, la_map Map) {
 	}
 
 	///pos du bot
-	int case_de_depart = Map.get_num(getPosition());
+	/*int case_de_depart = Map.get_num(getPosition());
 	int case_de_fin = Map.get_num(joueur);
 
-	path.debut(case_de_depart, case_de_fin, liste_chemin);
+	path.debut(case_de_depart, case_de_fin, liste_chemin);*/
 
 	///trouver le plus rapide parmis les blocks vide
 /*
@@ -164,7 +122,7 @@ int bot::testMapDeCase(int v) {
 
 bool bot::tirer() {
 
-	if (t_reload.Wait_Temps(3.0) == 1)
+	if (t_reload.Wait_Temps(3.0))
 		return true;
 
 	return false;

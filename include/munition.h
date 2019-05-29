@@ -24,7 +24,7 @@ class munition
 
         void bouger(float temps_recup){
 
-            if(invul.Wait_Temps(0.07)==1)
+            if(invul.Wait_Temps(0.07))
                 invulnerable=false;
 
             sf::Vector2f vitesse = globalPosition - position_dep;
@@ -102,8 +102,8 @@ class munition
         }
 
     private:
-sf::Vector2f test;
-    bool change=false;
+		sf::Vector2f test;
+		bool change=false;
         temps degat;
         temps invul;
         sf::Vector2f globalPosition;

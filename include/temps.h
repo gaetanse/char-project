@@ -11,7 +11,7 @@ public:
 
     temps();
     ~temps();
-    int Wait_Temps(float sec);
+    bool Wait_Temps(float sec);
     void reset();
     int donner();
     float recup_temps();
