@@ -40,7 +40,7 @@ int la_map::get_block(sf::Vector2f position){
 int x = position.x/64;
 int y = position.y/64;
 if(x<x_taille&&y<y_taille){
-    //std::cout << "map case valeur : " << mapDonne[y][x]-48 << "map case : " << y << "/" << x  << std::endl;
+    std::cout << "map case valeur : " << mapDonne[y][x] << "map case : " << y << "/" << x  << std::endl;
     return mapDonne[y][x]-48;
 }
 /*if(mapDonne[y][x]-48<liste_blocks.size())
@@ -67,7 +67,7 @@ if(mapDonne[y][x]-48<liste_blocks.size())
 void la_map::charger(int numero){
 
 std::ifstream file;
-file.open("bin/Debug/maps/0.txt", std::ios::in);
+file.open("maps/0.txt", std::ios::in);
 char caractere;
 int x=0,y=0;
 if(file.is_open()){
