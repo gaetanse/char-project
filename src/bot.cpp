@@ -12,8 +12,6 @@ bot::bot()
     sprit_cannon.setOrigin(sf::Vector2f(15,20));
 }
 
-
-
 int bot::check_col(sf::Vector2f test) {
 
 	if (test.x > getPosition().x && test.x < getPosition().x + 32) {
@@ -36,64 +34,14 @@ void bot::donner_texture_2(sf::Texture& texture) {
 int bot::getX() { return x; }
 int bot::getY() { return y; }
 
-void bot::cherche_joueur(sf::Vector2f joueur, la_map Map) {
-
-	///trouver un chemin vers le joueur
-	///tous les blocks vide
-	int num = 0;
-	for (int y = 0; y < 17; y++) {
-		for (int x = 0; x < 30; x++) {
-			if (Map.get_block_2(y, x) == 1) {
-				///push_back les positions
-				liste_chemin.push_back(num);
-			}
-			num++;
-		}
-	}
-
-	///pos du bot
-	/*int case_de_depart = Map.get_num(getPosition());
-	int case_de_fin = Map.get_num(joueur);
-
-	path.debut(case_de_depart, case_de_fin, liste_chemin);*/
-
-	///trouver le plus rapide parmis les blocks vide
-/*
-		int depart=0;
-		int case_=0;
-		for(int nb=0;nb<liste_chemin.size();nb++){
-			///pour chaque case il faut compter le nombre de x et
-
-			nb_chemin.push_back(0);
-			case_=liste_chemin.at(nb);
-
-			if(est_dans_la_liste(case_-1)){
-				std::cout << "-1 : oui" << std::endl;
-			}
-			if(est_dans_la_liste(case_+1)){
-				std::cout << "+1 : oui" << std::endl;
-			}
-			if(est_dans_la_liste(case_-10)){
-				std::cout << "-10 : oui" << std::endl;
-			}
-			if(est_dans_la_liste(case_+10)){
-				std::cout << "+10 : oui" << std::endl;
-			}
-
-		}*/
-		///ecrire la best soluce
-
-}
-
 void bot::spawn() {
-
 
 	x = rand() % 30;
 	y = rand() % 17;
 
-	std::cout << x << " / " << y << std::endl;
+	//std::cout << x << " / " << y << std::endl;
 
-	sprite.setPosition(sf::Vector2f(x * 32, y * 32));
+	sprite.setPosition(sf::Vector2f((x * 32) + 32, (y * 32) + 32));
 
 
 }
@@ -124,8 +72,8 @@ bool bot::tirer() {
 
 	if (t_reload.Wait_Temps(3.0))
 		return true;
-
-	return false;
+	else
+		return false;
 
 }
 sf::Vector2f bot::getPosition(){

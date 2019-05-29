@@ -17,17 +17,7 @@ class joueur
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);
 
-        void respawn(){}
-
-           int check_col(sf::Vector2f test){
-
-            if(test.x>getPosition().x&&test.x<getPosition().x+16){
-                if(test.y>getPosition().y&&test.y<getPosition().y+16){
-                    return 1;
-                }
-            }
-
-        }
+		void respawn() {};
 
         sf::Vector2f getPosition();
 
@@ -92,7 +82,7 @@ void donner_texture_2(sf::Texture &texture){
 
             std::cout << x << " / " << y << std::endl;
 
-            sprite.setPosition(sf::Vector2f(x*64,y*64));
+            sprite.setPosition(sf::Vector2f((x*32) + 32,(y*32) + 32));
 
 
         }

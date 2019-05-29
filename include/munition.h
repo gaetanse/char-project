@@ -22,9 +22,21 @@ class munition
             window.draw(sprite);
         }
 
+
+		bool check_col(sf::Vector2f test) {
+			if (test.y >= getPosition().y && test.y <= getPosition().y + 15) {
+				if (test.x >= getPosition().x && test.x <= getPosition().x + 15) {
+					//std::cout << test.x << " / " << test.y << " ---- " << getPosition().x << " / " << getPosition().y << std::endl;
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+
         void bouger(float temps_recup){
 
-            if(invul.Wait_Temps(0.07))
+            if(invul.Wait_Temps(1.0))
                 invulnerable=false;
 
             sf::Vector2f vitesse = globalPosition - position_dep;

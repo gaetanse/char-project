@@ -31,7 +31,7 @@ int la_map::get_block(sf::Vector2f position){
 int x = position.x/64;
 int y = position.y/64;
 if(x<x_taille&&y<y_taille){
-    std::cout << "map case valeur : " << mapDonne[y][x] << "map case : " << y << "/" << x  << std::endl;
+    //std::cout << "map case valeur : " << mapDonne[y][x] << "map case : " << y << "/" << x  << std::endl;
     return mapDonne[y][x]-48;
 }
 /*if(mapDonne[y][x]-48<liste_blocks.size())
