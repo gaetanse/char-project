@@ -56,7 +56,7 @@ class jeu
         bool fin=false;
         sf::Clock frameClock;
 
-        float vitesse_char;
+        float vitesse_char=0;
 
         ///jeu
         bool finDePartie=true;

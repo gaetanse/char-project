@@ -46,10 +46,8 @@ this->i=0;
 
 }
 
-temps::temps() : temps_attente(0.05),temps_actuel(0)
+temps::temps()
 {
-
-reussi=false;
 
 }
 

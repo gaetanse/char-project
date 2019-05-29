@@ -30,7 +30,7 @@ class menu
 
         gestionSf sf;
         bool fin=false;
-        int choix=0;
+        unsigned int choix=0;
 
 };
 

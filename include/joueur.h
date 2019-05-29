@@ -102,8 +102,8 @@ void donner_texture_2(sf::Texture &texture){
     sf::Sprite sprite;
     sf::Sprite sprite2;
     int vie=5;
-    int fenetre_x;
-    int fenetre_y;
+    int fenetre_x=0;
+    int fenetre_y=0;
 
     int x=0;
     int y=0;

@@ -19,8 +19,8 @@ class fenetre
     private:
 
         sf::Event event;
-        float largeur;
-        float hauteur;
+        float largeur=0;
+        float hauteur=0;
         sf::RenderWindow renderWindow;
 
 };

@@ -9,12 +9,8 @@ class temps
 
 public:
 
-    //constructeur
     temps();
-    //destructeur
     ~temps();
-    ///~ia();
-    //méthodes
     int Wait_Temps(float sec);
     void reset();
     int donner();
@@ -23,11 +19,11 @@ public:
 private:
 
 //VAR
-float temps_attente;
-float temps_actuel;
+float temps_attente=0;
+float temps_actuel=0;
 sf::Clock cloack;
-int i;
-bool reussi;
+int i=0;
+bool reussi=false;
 
 };
 

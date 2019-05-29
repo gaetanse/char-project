@@ -8,15 +8,6 @@
 la_map::la_map()
 {
 
-    liste_blocks.push_back(false);
-    liste_blocks.push_back(true);
-    liste_blocks.push_back(false);
-    liste_blocks.push_back(false);
-    liste_blocks.push_back(false);
-    liste_blocks.push_back(false);
-    liste_blocks.push_back(false);
-    liste_blocks.push_back(false);
-
 }
 
 void la_map::charger_texture(sf::Texture &texture){

@@ -21,7 +21,7 @@ class la_map
 
     private:
 
-        int mapDonne[y_taille][x_taille];
+		int mapDonne[y_taille][x_taille] = {0};
         sf::Sprite sprite;
         std::vector<bool>liste_blocks;
 
