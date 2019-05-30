@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bot.h" />
+    <ClInclude Include="include\explosion.h" />
     <ClInclude Include="include\fenetre.h" />
     <ClInclude Include="include\gestionSf.h" />
     <ClInclude Include="include\jeu.h" />
@@ -35,6 +36,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\bot.cpp" />
+    <ClCompile Include="src\explosion.cpp" />
     <ClCompile Include="src\fenetre.cpp" />
     <ClCompile Include="src\gestionSf.cpp" />
     <ClCompile Include="src\jeu.cpp" />

@@ -56,6 +56,9 @@ void jeu::boucle(fenetre &f){
     texture_munition.loadFromFile("design/munition.png");
     liste_munition.reserve(joueurs);
 
+	texture_explosion.loadFromFile("design/tilesheet/16_sunburn_spritesheet.png");
+	liste_explosions.reserve(joueurs);
+
     /// // POUR LES JOUEURS CREER // ///
     texture_char.loadFromFile("design/char.png");
     texture_dessus.loadFromFile("design/dessus.png");
@@ -79,14 +82,17 @@ void jeu::boucle(fenetre &f){
 
         if(liste_player.size()==0){
             joueur j_creer;
-            while(j_creer.testMapDeCase(Map.get_block(sf::Vector2f(j_creer.getPosition())))!=1){
-                j_creer.spawn();
-				for (int a = 0; a < liste_bot.size(); a++) {
-					while (j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_bot.at(a).getX()) {
+			///TESTER LES BOTS
+				///TESTER LES JOUEURS
+					///TESTER SI C UNE BONNE CASE
+			/*for (int b = 0; b < liste_player.size(); b++) {
+				for (int a = 0; a < liste_bot.size(); a++) {*/
+			//j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_player.at(b).getX() && j_creer.getX() == liste_player.at(b).getX() && 
+					while (j_creer.testMapDeCase(Map.get_block(sf::Vector2f(j_creer.getPosition()))) != 1) {
 						j_creer.spawn();
-					}
-				}
-            }
+				/*	}
+				}*/
+			}
             j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
             j_creer.donner_texture_2(texture_dessus);
             j_creer.donnerTaille_fenetre(f);///CHANGER ET DONNEZ JUSTE LES BONNES VALEURS
@@ -95,26 +101,26 @@ void jeu::boucle(fenetre &f){
 
         if(finDePartie){
             bot bot_num(0);
-            while(bot_num.testMapDeCase(Map.get_block(sf::Vector2f(bot_num.getPosition())))!=1){
-                bot_num.spawn();
-				for (int a = 0; a < liste_bot.size(); a++) {
-					while(bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_bot.at(a).getX()) {
-						bot_num.spawn();
-					}
+				/*for (int b = 0; b < liste_player.size(); b++) {
+					for (int a = 0; a < liste_bot.size(); a++) {*/
+			//&&bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_player.at(b).getX() && bot_num.getX() == liste_player.at(b).getX()
+						while(bot_num.testMapDeCase(Map.get_block(sf::Vector2f(bot_num.getPosition()))) != 1) {
+							bot_num.spawn();
+					/*	}
+					}*/
 				}
-            }
             bot_num.donner_texture(texture_char);
             bot_num.donner_texture_2(texture_dessus);
             liste_bot.push_back(bot_num);
 			bot bot_num_2(1);
-			while (bot_num_2.testMapDeCase(Map.get_block(sf::Vector2f(bot_num_2.getPosition()))) != 1) {
-				bot_num_2.spawn();
-				for (int a = 0; a < liste_bot.size(); a++) {
-					while (bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_bot.at(a).getX()) {
-						bot_num_2.spawn();
-					}
+				/*for (int b = 0; b < liste_player.size(); b++) {
+					for (int a = 0; a < liste_bot.size(); a++) {*/
+			//&&bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_player.at(b).getX() && bot_num_2.getX() == liste_player.at(b).getX()
+						while (bot_num_2.testMapDeCase(Map.get_block(sf::Vector2f(bot_num_2.getPosition()))) != 1) {
+							bot_num_2.spawn();
+					/*	}
+					}*/
 				}
-			}
 			bot_num_2.donner_texture(texture_char);
 			bot_num_2.donner_texture_2(texture_dessus);
 			liste_bot.push_back(bot_num_2);
@@ -245,8 +251,12 @@ void jeu::boucle(fenetre &f){
                 if(liste_munition.at(a).check_col(liste_player.at(nb).getPosition())){
                     sound.setBuffer(sons.at(1));
                     sound.play();
+					explosion _explosion(liste_player.at(nb).getPosition());
+					_explosion.donner_texture(texture_explosion);
+					liste_explosions.push_back(_explosion);
                     liste_player.erase(liste_player.begin()+nb);
                     toucherJ=true;
+
                     break;
                 }
             }
@@ -275,6 +285,9 @@ void jeu::boucle(fenetre &f){
                 if(liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())){
                     sound.setBuffer(sons.at(1));
                     sound.play();
+					explosion _explosion(liste_bot.at(nbd).getPosition());
+					_explosion.donner_texture(texture_explosion);
+					liste_explosions.push_back(_explosion);
                     liste_bot.erase(liste_bot.begin()+nbd);
                     toucher=true;
                     break;
@@ -288,6 +301,13 @@ void jeu::boucle(fenetre &f){
                 liste_bot.at(nbd).affichage(f.getWin());
             }
         }
+
+		for (int a = 0; a < liste_explosions.size(); a++) {
+			if(liste_explosions.at(a).animation()==false)
+				liste_explosions.at(a).affichage(f.getWin());
+			else
+				liste_explosions.erase(liste_explosions.begin() + a);
+		}
 
         sf.affichage(f.getWin());
 

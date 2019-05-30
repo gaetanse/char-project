@@ -9,6 +9,7 @@
 #include "la_map.h"
 #include "munition.h"
 #include "bot.h"
+#include "explosion.h"
 
 class jeu
 {
@@ -42,6 +43,7 @@ class jeu
         sf::Texture texture_dessus;
         sf::Texture texture_map;
         sf::Texture texture_munition;
+		sf::Texture texture_explosion;
         sf::Image test_map;
 
         sf::View view1;
@@ -52,6 +54,7 @@ class jeu
         std::vector<joueur>liste_player;
         std::vector<munition>liste_munition;
         std::vector<bot>liste_bot;
+		std::vector<explosion>liste_explosions;
        // joueur j1;
         bool fin=false;
         sf::Clock frameClock;

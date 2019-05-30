@@ -45,8 +45,8 @@ int bot::getY() { return y; }
 
 void bot::spawn() {
 
-	x = rand() % 28-1;
-	y = rand() % 13-1;
+	x = rand() % 30;
+	y = rand() % 17;
 
 	sprite.setPosition(sf::Vector2f(x*64+32,y*64+32));
 
