@@ -58,6 +58,8 @@ class jeu
 
         float vitesse_char=0;
 
+		temps timer_spawn;
+
         ///jeu
         bool finDePartie=true;
 

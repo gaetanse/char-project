@@ -2,14 +2,23 @@
 
 #define PI 3.14159265
 
-bot::bot()
+bot::bot(int id)
 {
+	numero = id;
     srand (time(NULL));
     sprite.setScale(2,2);
     sprite.setOrigin(sf::Vector2f(15,15));
     sprit_cannon.setScale(2,2);
     sprit_cannon.setPosition(32,32);
     sprit_cannon.setOrigin(sf::Vector2f(15,20));
+	if (numero == 0) {
+		sprite.setColor(sf::Color::Yellow);
+		sprit_cannon.setColor(sf::Color::Yellow);
+	}
+	else if (numero == 1) {
+		sprite.setColor(sf::Color::Green);
+		sprit_cannon.setColor(sf::Color::Green);
+	}
 }
 
 int bot::check_col(sf::Vector2f test) {
@@ -36,13 +45,10 @@ int bot::getY() { return y; }
 
 void bot::spawn() {
 
-	x = rand() % 30;
-	y = rand() % 17;
+	x = rand() % 28-1;
+	y = rand() % 13-1;
 
-	//std::cout << x << " / " << y << std::endl;
-
-	sprite.setPosition(sf::Vector2f((x * 32) + 32, (y * 32) + 32));
-
+	sprite.setPosition(sf::Vector2f(x*64+32,y*64+32));
 
 }
 
@@ -69,12 +75,15 @@ int bot::testMapDeCase(int v) {
 }
 
 bool bot::tirer() {
-
-	if (t_reload.Wait_Temps(3.0))
-		return true;
-	else
+	if (numero == 0) {
+		if (t_reload.Wait_Temps(3.0))
+			return true;
+		else
+			return false;
+	}
+	else if (numero == 1) {
 		return false;
-
+	}
 }
 sf::Vector2f bot::getPosition(){
     return sprite.getPosition();

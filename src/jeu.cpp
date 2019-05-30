@@ -16,6 +16,8 @@ jeu::jeu(int difficulte,int mapMode,int nbjoueurs,float son,float musique)
 
 void jeu::boucle(fenetre &f){
 
+	srand(time(NULL));
+
     /// AUDIO
     sound.setVolume(volume_son);
     /// setvolume volume_audio
@@ -79,6 +81,11 @@ void jeu::boucle(fenetre &f){
             joueur j_creer;
             while(j_creer.testMapDeCase(Map.get_block(sf::Vector2f(j_creer.getPosition())))!=1){
                 j_creer.spawn();
+				for (int a = 0; a < liste_bot.size(); a++) {
+					while (j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_bot.at(a).getX()) {
+						j_creer.spawn();
+					}
+				}
             }
             j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
             j_creer.donner_texture_2(texture_dessus);
@@ -87,13 +94,30 @@ void jeu::boucle(fenetre &f){
         }
 
         if(finDePartie){
-            bot bot_num;
+            bot bot_num(0);
             while(bot_num.testMapDeCase(Map.get_block(sf::Vector2f(bot_num.getPosition())))!=1){
                 bot_num.spawn();
+				for (int a = 0; a < liste_bot.size(); a++) {
+					while(bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_bot.at(a).getX()) {
+						bot_num.spawn();
+					}
+				}
             }
             bot_num.donner_texture(texture_char);
             bot_num.donner_texture_2(texture_dessus);
             liste_bot.push_back(bot_num);
+			bot bot_num_2(1);
+			while (bot_num_2.testMapDeCase(Map.get_block(sf::Vector2f(bot_num_2.getPosition()))) != 1) {
+				bot_num_2.spawn();
+				for (int a = 0; a < liste_bot.size(); a++) {
+					while (bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_bot.at(a).getX()) {
+						bot_num_2.spawn();
+					}
+				}
+			}
+			bot_num_2.donner_texture(texture_char);
+			bot_num_2.donner_texture_2(texture_dessus);
+			liste_bot.push_back(bot_num_2);
             finDePartie=false;
         }
 

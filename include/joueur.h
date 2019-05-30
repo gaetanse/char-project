@@ -76,14 +76,10 @@ void donner_texture_2(sf::Texture &texture){
 
         void spawn(){
 
-
             x = rand() % 30;
             y = rand() % 17;
 
-            std::cout << x << " / " << y << std::endl;
-
-            sprite.setPosition(sf::Vector2f((x*32) + 32,(y*32) + 32));
-
+			sprite.setPosition(sf::Vector2f(x * 64 + 32, y * 64 + 32));
 
         }
 
@@ -93,6 +89,9 @@ void donner_texture_2(sf::Texture &texture){
 
 
         }
+
+		int getX() { return x; }
+		int getY() { return y; }
 
     private:
 

@@ -10,7 +10,7 @@
 class bot
 {
     public:
-        bot();
+        bot(int id);
         ~bot();
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);
@@ -33,6 +33,8 @@ class bot
 		void donner_texture_2(sf::Texture& texture);
 
     private:
+
+	int numero = 0;
 
     pathfinding path;
     temps t_reload;
