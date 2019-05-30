@@ -10,6 +10,7 @@
 #include "munition.h"
 #include "bot.h"
 #include "explosion.h"
+#include "audio.h"
 
 class jeu
 {
@@ -21,6 +22,7 @@ class jeu
 
     private:
 
+		audio _audio;
 
         int diff=0;
         int mapMod=0;
@@ -29,8 +31,8 @@ class jeu
         float volume_audio=0;
 
         /// AUDIO
-        std::vector<sf::SoundBuffer>sons;
-        sf::Sound sound;
+        std::vector<sf::SoundBuffer>sonsBuffers;
+		std::vector<sf::Sound>sons;
 
         int modeDeJeu=0; /// 0 = Facile / 1 = Moyen / 2 = Difficile / 3 = Impossible
 
@@ -65,6 +67,7 @@ class jeu
 
         ///jeu
         bool finDePartie=true;
+		std::vector<string>listes_son;
 
 };
 

@@ -19,19 +19,17 @@ void jeu::boucle(fenetre &f){
 	srand(time(NULL));
 
     /// AUDIO
-    sound.setVolume(volume_son);
+    //sound.setVolume(volume_son);
     /// setvolume volume_audio
-    std::vector<string>listes_son;
     listes_son.push_back("audio/expl10.wav");
     listes_son.push_back("audio/expl15.wav");
 
     for(int a=0;a<listes_son.size();a++){
         sf::SoundBuffer besoin;
-        sons.push_back(besoin);
-        if (!sons.at(a).loadFromFile(listes_son.at(a)))
+        sonsBuffers.push_back(besoin);
+        if (!sonsBuffers.at(a).loadFromFile(listes_son.at(a)))
             std::cout << "erreur chargement du son : " << listes_son.at(a) << std::endl;
     }
-
 
     /// // POUR LA MAP // ///
     view1.reset(sf::FloatRect(0, 0, 960, 540));
@@ -57,7 +55,7 @@ void jeu::boucle(fenetre &f){
     liste_munition.reserve(joueurs);
 
 	texture_explosion.loadFromFile("design/tilesheet/16_sunburn_spritesheet.png");
-	liste_explosions.reserve(joueurs);
+	//liste_explosions.reserve(255);
 
     /// // POUR LES JOUEURS CREER // ///
     texture_char.loadFromFile("design/char.png");
@@ -249,9 +247,13 @@ void jeu::boucle(fenetre &f){
         for(int nb=0;nb<liste_player.size();nb++){
             for(int a=0;a<liste_munition.size();a++){
                 if(liste_munition.at(a).check_col(liste_player.at(nb).getPosition())){
-                    sound.setBuffer(sons.at(1));
-                    sound.play();
-					explosion _explosion(liste_player.at(nb).getPosition());
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
+					sons.at(sons.size() - 1).play();
+					explosion _explosion;
+					_explosion.transfere(liste_player.at(nb).getPosition());
 					_explosion.donner_texture(texture_explosion);
 					liste_explosions.push_back(_explosion);
                     liste_player.erase(liste_player.begin()+nb);
@@ -283,9 +285,13 @@ void jeu::boucle(fenetre &f){
 
             for(int ab=0;ab<liste_munition.size();ab++){
                 if(liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())){
-                    sound.setBuffer(sons.at(1));
-                    sound.play();
-					explosion _explosion(liste_bot.at(nbd).getPosition());
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
+					sons.at(sons.size() - 1).play();
+					explosion _explosion;
+					_explosion.transfere(liste_player.at(nbd).getPosition());
 					_explosion.donner_texture(texture_explosion);
 					liste_explosions.push_back(_explosion);
                     liste_bot.erase(liste_bot.begin()+nbd);
@@ -301,12 +307,19 @@ void jeu::boucle(fenetre &f){
                 liste_bot.at(nbd).affichage(f.getWin());
             }
         }
+		
+		for (int a = 0; a < liste_explosions.size(); a++)
+			//if(_audio.attendre(a))
+			//	_audio.supprime(a)
 
 		for (int a = 0; a < liste_explosions.size(); a++) {
-			if(liste_explosions.at(a).animation()==false)
+			if (liste_explosions.at(a).animation() == false) {
 				liste_explosions.at(a).affichage(f.getWin());
-			else
+			}
+			else{
 				liste_explosions.erase(liste_explosions.begin() + a);
+				sons.erase(sons.begin() + a);
+			}
 		}
 
         sf.affichage(f.getWin());

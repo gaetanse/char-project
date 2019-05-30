@@ -7,11 +7,16 @@
 class explosion
 {
 public:
-	explosion(sf::Vector2f pos);
+	explosion();
 	~explosion();
 
-	bool animation() {
+	void transfere(sf::Vector2f pos) {
+		sprite.setScale(1, 1);
+		sprite.setPosition(pos);
+		sprite.setOrigin(sf::Vector2f(40, 40));
+	}
 
+	bool animation() {
 		if (destruction.Wait_Temps(0.2)) {
 			return true;
 		}
@@ -44,6 +49,7 @@ private:
 	int x, y = 0;
 	temps destruction;
 	sf::Sprite sprite;
+
 };
 
 #endif // MUNITION_H
