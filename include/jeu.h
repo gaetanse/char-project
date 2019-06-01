@@ -11,6 +11,7 @@
 #include "bot.h"
 #include "explosion.h"
 #include "audio.h"
+#include "config.h"
 
 class jeu
 {
@@ -21,6 +22,8 @@ class jeu
     void boucle(fenetre &f);
 
     private:
+
+		config _config;
 
 		audio _audio;
 

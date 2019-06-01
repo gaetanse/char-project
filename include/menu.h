@@ -5,6 +5,8 @@
 #include "fenetre.h"
 #include "gestionSf.h"
 #include "joueur.h"
+#include "config.h"
+#include "audio.h"
 
 class menu
 {
@@ -16,6 +18,7 @@ class menu
 
     private:
 
+		config _config;
 
         int difficulte=1;
         int mapMode=1;

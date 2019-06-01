@@ -23,8 +23,8 @@ bot::bot(int id)
 
 int bot::check_col(sf::Vector2f test) {
 
-	if (test.x > getPosition().x && test.x < getPosition().x + 32) {
-		if (test.y > getPosition().y && test.y < getPosition().y + 32) {
+	if (getPosition().x > test.x - 64 && getPosition().x < test.x + 64) {
+		if (getPosition().y > test.y - 64 &&  getPosition().y < test.y  + 64) {
 			return 1;
 		}
 	}

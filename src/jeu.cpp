@@ -284,6 +284,20 @@ void jeu::boucle(fenetre &f){
             }
 
             for(int ab=0;ab<liste_munition.size();ab++){
+				/*if (liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())) {
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
+					sons.at(sons.size() - 1).play();
+					explosion _explosion;
+					_explosion.transfere(liste_bot.at(nbd).getPosition());
+					_explosion.donner_texture(texture_explosion);
+					liste_explosions.push_back(_explosion);
+					liste_bot.erase(liste_bot.begin() + nbd);
+					toucher = true;
+					break;
+				}*/
                 if(liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())){
 					sf::Sound son;
 					sons.push_back(son);
@@ -291,7 +305,7 @@ void jeu::boucle(fenetre &f){
 					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
 					sons.at(sons.size() - 1).play();
 					explosion _explosion;
-					_explosion.transfere(liste_player.at(nbd).getPosition());
+					_explosion.transfere(liste_bot.at(nbd).getPosition());
 					_explosion.donner_texture(texture_explosion);
 					liste_explosions.push_back(_explosion);
                     liste_bot.erase(liste_bot.begin()+nbd);
