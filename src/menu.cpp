@@ -2,12 +2,25 @@
 #include "../include/jeu.h"
 #include "../include/option.h"
 
+//#include <bits/stdc++.h> 
+
+#include <iostream>
+#include <string>
+
 menu::menu()
 {
     //ctor
 }
 
 void menu::boucle(fenetre &f){
+
+	//if (_config.get_existe()) {
+		///affecter toutes les valeurs
+		//char* pEnd;
+
+	//std::cout << _config.get_infoT(0);
+		//std::cout << son;
+	//}
 
     f.getWin().setMouseCursorVisible(false);
 
@@ -68,6 +81,25 @@ void menu::boucle(fenetre &f){
     le_joueur.donnerTaille_fenetre(f);
     le_joueur.spawn_milieu();
 
+
+	son = std::stof(_config.get_infoT(0));
+	musique = std::stof(_config.get_infoT(1));
+
+	std::string n = "";
+
+	n = "Son : (";
+	n += std::to_string((int)son);
+	n += ")/100";
+
+	sf.modifText(3+1, n);
+
+	n.clear();
+	n = "Musique : (";
+	n += std::to_string((int)musique);
+	n += ")/100";
+
+	sf.modifText(4+1, n);
+
     //sf.creerRectangle(sf::Vector2f(f.getLargeur()/4,(choix*f.getHauteur()/10)+choix*2+5+(liste_string.size()*250)),sf::Vector2f(f.getLargeur()/2,f.getHauteur()/12),sf::Color::Transparent,8,sf::Color::White);
 
     while(!fin){
@@ -106,6 +138,8 @@ void menu::boucle(fenetre &f){
             }
 
             if (f.getEvent().type == sf::Event::KeyPressed){
+
+				
 
                 if (f.getEvent().key.code == sf::Keyboard::Escape){
                     fin=true;
@@ -191,6 +225,8 @@ void menu::boucle(fenetre &f){
                             n+=")/100";
                     }
                     sf.modifText(choix+1,n);
+					_config.set_infoT(0, std::to_string((int)son));
+					_config.set_infoT(1, std::to_string((int)musique));
                 }
                 if (f.getEvent().key.code == sf::Keyboard::Right){
                     string n="";
@@ -256,6 +292,8 @@ void menu::boucle(fenetre &f){
                             n+=")/100";
                     }
                     sf.modifText(choix+1,n);
+					_config.set_infoT(0, std::to_string((int)son));
+					_config.set_infoT(1, std::to_string((int)musique));
                 }
                 if (f.getEvent().key.code == sf::Keyboard::Enter){
                         fin=true;
