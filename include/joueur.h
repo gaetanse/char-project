@@ -83,6 +83,12 @@ void donner_texture_2(sf::Texture &texture){
 
         }
 
+		void setSpawn(int y, int x) {
+
+			sprite.setPosition(sf::Vector2f(x * 64 + 32, y * 64 + 32));
+
+		}
+
         void spawn_milieu(){
 
             sprite.setPosition(sf::Vector2f(fenetre_x/2,fenetre_y/3));

@@ -5,6 +5,53 @@
 #define mode false /// TRUE = mode loris / FALSE = mode Gaetan
 #define blocks 10 /// nb de block existant dans le dossier blocks
 
+void jeu::start() {
+
+	if (numeroDePartie - 1 == 5) {
+		exit(0);
+	}
+
+	listes_son.clear();
+	liste_bot.clear();
+	liste_player.clear();
+	liste_munition.clear();
+	liste_explosions.clear();
+
+	Map.charger(numeroDePartie-1);
+
+	////FAIRE SPAWN LES IA
+	for (int y = 0; y < 17; y++) {
+		for (int x = 0; x < 30; x++) {
+			int nb = Map.get_block_2(y, x);
+			if (nb == 7) {
+				bot bot_num(1);
+				bot_num.setSpawn(y, x);
+				bot_num.donner_texture(texture_char);
+				bot_num.donner_texture_2(texture_dessus);
+				liste_bot.push_back(bot_num);
+			}
+			else if (nb == 8) {
+				bot bot_num(1);
+				bot_num.setSpawn(y, x);
+				bot_num.donner_texture(texture_char);
+				bot_num.donner_texture_2(texture_dessus);
+				liste_bot.push_back(bot_num);
+			}
+			else if (nb == 3) {
+				joueur j_creer;
+				j_creer.setSpawn(y, x);
+				j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
+				j_creer.donner_texture_2(texture_dessus);
+				//j_creer.donnerTaille_fenetre(f);///CHANGER ET DONNEZ JUSTE LES BONNES VALEURS
+				liste_player.push_back(j_creer);
+			}
+		}
+	}
+
+	numeroDePartie++;
+	finDePartie = false;
+}
+
 jeu::jeu(int difficulte,int mapMode,int nbjoueurs,float son,float musique)
 {
         diff=difficulte;
@@ -48,7 +95,6 @@ void jeu::boucle(fenetre &f){
     }
     Map.charger_texture(texture_map);
     /// chargement map 0
-    Map.charger(0);
     /// /// /// /// /// /// /// /// ///
 
     texture_munition.loadFromFile("design/munition.png");
@@ -69,27 +115,38 @@ void jeu::boucle(fenetre &f){
     sf.creerSprite("design/viseur.png",sf::Vector2f(0,0),sf::Vector2f(1,1));
     sf.creerTexte("Vie : 5 | Niveau : 1 | Difficulté : Normal | Map aléatoire : Non",sf::Vector2f(f.getLargeur()/3.5,f.getHauteur()/20),25,sf::Color::Black);
 
-    while(!fin){
+	//if (mapMod == 0) {
+		start();
+	//}
 
-        sf::Time frameTime = frameClock.restart();
-        float temps_recup=frameTime.asSeconds();
+	/*for (int b = 0; b < liste_player.size(); b++) {
+		for (int a = 0; a < liste_bot.size(); a++) {*/
+		//&&bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_player.at(b).getX() && bot_num_2.getX() == liste_player.at(b).getX()
 
-        if(liste_bot.size()==0){
-            finDePartie=true;
-        }
+				/*	}
+				}*/
+	/*for (int b = 0; b < liste_player.size(); b++) {
+		for (int a = 0; a < liste_bot.size(); a++) {*/
+		//&&bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_player.at(b).getX() && bot_num.getX() == liste_player.at(b).getX()
+
+				/*	}
+				}*/
+
+	///TESTER LES BOTS
+		///TESTER LES JOUEURS
+			///TESTER SI C UNE BONNE CASE
+	/*for (int b = 0; b < liste_player.size(); b++) {
+		for (int a = 0; a < liste_bot.size(); a++) {*/
+		//j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_player.at(b).getX() && j_creer.getX() == liste_player.at(b).getX() && 
+
+			/*	}
+			}*/
+	/*
 
         if(liste_player.size()==0){
             joueur j_creer;
-			///TESTER LES BOTS
-				///TESTER LES JOUEURS
-					///TESTER SI C UNE BONNE CASE
-			/*for (int b = 0; b < liste_player.size(); b++) {
-				for (int a = 0; a < liste_bot.size(); a++) {*/
-			//j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_bot.at(a).getX() && j_creer.getX() == liste_player.at(b).getX() && j_creer.getX() == liste_player.at(b).getX() && 
-					while (j_creer.testMapDeCase(Map.get_block(sf::Vector2f(j_creer.getPosition()))) != 1) {
+			while (j_creer.testMapDeCase(Map.get_block(sf::Vector2f(j_creer.getPosition()))) != 1) {
 						j_creer.spawn();
-				/*	}
-				}*/
 			}
             j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
             j_creer.donner_texture_2(texture_dessus);
@@ -99,31 +156,46 @@ void jeu::boucle(fenetre &f){
 
         if(finDePartie){
             bot bot_num(0);
-				/*for (int b = 0; b < liste_player.size(); b++) {
-					for (int a = 0; a < liste_bot.size(); a++) {*/
-			//&&bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_bot.at(a).getX() && bot_num.getX() == liste_player.at(b).getX() && bot_num.getX() == liste_player.at(b).getX()
-						while(bot_num.testMapDeCase(Map.get_block(sf::Vector2f(bot_num.getPosition()))) != 1) {
-							bot_num.spawn();
-					/*	}
-					}*/
+			while (bot_num.testMapDeCase(Map.get_block(sf::Vector2f(bot_num.getPosition()))) != 1) {
+				bot_num.spawn();
 				}
             bot_num.donner_texture(texture_char);
             bot_num.donner_texture_2(texture_dessus);
             liste_bot.push_back(bot_num);
 			bot bot_num_2(1);
-				/*for (int b = 0; b < liste_player.size(); b++) {
-					for (int a = 0; a < liste_bot.size(); a++) {*/
-			//&&bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_bot.at(a).getX() && bot_num_2.getX() == liste_player.at(b).getX() && bot_num_2.getX() == liste_player.at(b).getX()
-						while (bot_num_2.testMapDeCase(Map.get_block(sf::Vector2f(bot_num_2.getPosition()))) != 1) {
-							bot_num_2.spawn();
-					/*	}
-					}*/
+			while (bot_num_2.testMapDeCase(Map.get_block(sf::Vector2f(bot_num_2.getPosition()))) != 1) {
+				bot_num_2.spawn();
 				}
 			bot_num_2.donner_texture(texture_char);
 			bot_num_2.donner_texture_2(texture_dessus);
 			liste_bot.push_back(bot_num_2);
             finDePartie=false;
         }
+
+	*/
+
+    while(!fin){
+
+        sf::Time frameTime = frameClock.restart();
+        float temps_recup=frameTime.asSeconds();
+
+
+		if (liste_bot.size() == 0) {
+			///partie +1
+			//charger map
+			//refaire les chargements perso et ia
+			//numeroDePartie++;
+			finDePartie = true;
+			start();
+		}
+
+
+		if (liste_player.size() == 0) {
+			fin = true;
+			menu objet_menu;
+			objet_menu.boucle(f);
+
+		}
 
          for(int z=0;z<liste_player.size();z++){
             if(liste_player.at(z).tirer()){
@@ -178,17 +250,85 @@ void jeu::boucle(fenetre &f){
                     num_y=30;
                 }
 
-                for(int nb=0;nb<liste_player.size();nb++){
-                        std::cout << joueurs << std::endl;
+               for(int nb=0;nb<liste_player.size();nb++){
+
+				   int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
+				   int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
+				   /*
+
+				   std::cout << nb_1 << " /// " << nb_2 << std::endl;
+
+				   std::vector<int>list;
+				   list.push_back(1);
+				   list.push_back(3);
+				   list.push_back(7);
+
+				   for (int a = 0; a < list.size(); a++) {
+					   if (nb_1 == a && nb_2 == a) {
+						   if (mode) {
+							   liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+						   }
+						   else {
+							   liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						   }
+					   }
+				   }*/
+				   
+				   if ((nb_1 == 1 && nb_2 == 1)|| (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
+					   if (mode) {
+						   liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+					   }
+					   else {
+						   liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+					   }
+				   }
+				   /*
                 if(Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x+num_x+num_2x,liste_player.at(0).getPosition().y+num_y+num_2y))==1&&
                     Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x+num_x+num_3x,liste_player.at(0).getPosition().y+num_y+num_3y))==1){
                     if(joueurs==1){
-                        if(mode)
-                            liste_player.at(0).deplacement_normal(f.getEvent().key.code,temps_recup);
-                        else
-                            liste_player.at(0).deplacement_complexe(f.getEvent().key.code,temps_recup);
+
+						std::cout << "HUM";
+
+                        if(mode){
+							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+						}
+                        else{
+							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						}
                     }
                 }
+
+				if (Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_2x, liste_player.at(0).getPosition().y + num_y + num_2y)) == 7 &&
+					Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_3x, liste_player.at(0).getPosition().y + num_y + num_3y)) == 7) {
+					if (joueurs == 1) {
+
+						std::cout << "HUM";
+
+						if (mode) {
+							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+						}
+						else {
+							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						}
+					}
+				}
+
+				if (Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_2x, liste_player.at(0).getPosition().y + num_y + num_2y)) == 3 &&
+					Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_3x, liste_player.at(0).getPosition().y + num_y + num_3y)) == 3) {
+					if (joueurs == 1) {
+
+						std::cout << "HUM";
+
+						if (mode) {
+							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+						}
+						else {
+							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						}
+					}
+				}
+
+				*/
                 }
 
                 if (f.getEvent().key.code == sf::Keyboard::Escape){
@@ -225,15 +365,24 @@ void jeu::boucle(fenetre &f){
 
         for(int nbe=0;nbe<liste_munition.size();nbe++){
 
+			int nb = Map.get_block(sf::Vector2f(liste_munition.at(nbe).getPosition()));
+
+			if (nb == 2) {
+				if (liste_munition.at(nbe).getVie() > 0) {
+					liste_munition.at(nbe).changer_sens();
+				}
+				else {
+					liste_munition.erase(liste_munition.begin() + nbe);
+					touchM = true;
+				}
+
+			}
+			
+			
+			/*
            if(Map.get_block(sf::Vector2f(liste_munition.at(nbe).getPosition()))!=1){
-                if(liste_munition.at(nbe).getVie()>0){
-                    liste_munition.at(nbe).changer_sens();
-                }
-                else{
-                    liste_munition.erase(liste_munition.begin()+nbe);
-                    touchM=true;
-                }
-            }
+             
+            }*/
 
             if(!touchM){
                 liste_munition.at(nbe).bouger(temps_recup);

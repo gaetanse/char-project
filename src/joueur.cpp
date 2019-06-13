@@ -128,9 +128,11 @@ return 1;
 
 int joueur::deplacement_complexe(int touche,float time_r){
 
+	std::cout << "bouge a droite /" << touche << " / " << time_r << std::endl;
+
 sf::Vector2f movement(0.f, 0.f);
 if(touche==71){///gauche
-    if(sprite.getPosition().x>32){
+    //if(sprite.getPosition().x>0){
         if(sprite.getRotation()==270)
             movement.x -= vitesse;
         else
@@ -138,10 +140,10 @@ if(touche==71){///gauche
                 sprite.rotate(-vitesse_tourner);
             else
                 sprite.rotate(vitesse_tourner);
-    }
+   // }
 }
 if(touche==72){///droite
-    if(sprite.getPosition().x<fenetre_x-32){
+    //if(sprite.getPosition().x<fenetre_x){
         if(sprite.getRotation()==90)
             movement.x += vitesse;
         else
@@ -149,10 +151,10 @@ if(touche==72){///droite
                 sprite.rotate(vitesse_tourner);
             else
                 sprite.rotate(-vitesse_tourner);
-    }
+   // }
 }
 if(touche==73){///haut
-    if(sprite.getPosition().y>32){
+   // if(sprite.getPosition().y>32){
         if(sprite.getRotation()==0)
             movement.y -= vitesse;
         else
@@ -160,10 +162,10 @@ if(touche==73){///haut
                 sprite.rotate(-vitesse_tourner);
             else
                 sprite.rotate(vitesse_tourner);
-    }
+   // }
 }
 if(touche==74){///bas
-    if(sprite.getPosition().y<fenetre_y-32){
+   // if(sprite.getPosition().y<fenetre_y-32){
         if(sprite.getRotation()==180)
             movement.y += vitesse;
         else
@@ -171,7 +173,7 @@ if(touche==74){///bas
                 sprite.rotate(vitesse_tourner);
             else if(sprite.getRotation()>=180)
                 sprite.rotate(-vitesse_tourner);
-    }
+  //  }
 }
 sprite.move(movement*time_r);
 

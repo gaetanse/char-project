@@ -32,6 +32,13 @@ class bot
 		void donner_texture(sf::Texture& texture);
 		void donner_texture_2(sf::Texture& texture);
 
+
+		void setSpawn(int y, int x) {
+
+			sprite.setPosition(sf::Vector2f(x * 64 + 32, y * 64 + 32));
+
+		}
+
     private:
 
 	int numero = 0;

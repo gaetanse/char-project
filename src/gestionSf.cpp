@@ -74,10 +74,11 @@ void gestionSf::modifRect(unsigned int num,sf::Vector2f taille,sf::Vector2f pos)
 void gestionSf::modifRectV2(int choix,sf::Color couleur){
     std::cout << "le choix est : " << choix << std::endl;
     for(int a=0;a<rectangles.size();a++)
-        if(a!=choix&&a!=0)
+        if(a!=choix)
             rectangles.at(a).setOutlineColor(sf::Color::White);
 
-    rectangles.at(choix).setOutlineColor(couleur);
+	if(choix>=0)
+			rectangles.at(choix).setOutlineColor(couleur);
 }
 
 void gestionSf::creerTexte(std::string texte,sf::Vector2f position,unsigned int taille,sf::Color couleur)

@@ -50,15 +50,20 @@ return y*30+x;
 
 int la_map::get_block_2(int y,int x){
 
-if(mapDonne[y][x]-48<liste_blocks.size())
-    return liste_blocks.at(mapDonne[y][x]-48);
+	if (y < y_taille && x < x_taille)
+		return mapDonne[y][x]-48;
 
 }
 
 void la_map::charger(int numero){
 
 std::ifstream file;
-file.open("maps/0.txt", std::ios::in);
+
+std::string besoin = "maps/";
+besoin += std::to_string(numero);
+besoin += ".txt";
+
+file.open(besoin, std::ios::in);
 char caractere;
 int x=0,y=0;
 if(file.is_open()){

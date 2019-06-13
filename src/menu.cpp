@@ -25,7 +25,7 @@ void menu::boucle(fenetre &f){
     f.getWin().setMouseCursorVisible(false);
 
     std::vector<std::string>liste_string;
-    liste_string.push_back("Jouer Mode Normal");
+    liste_string.push_back("Appuie sur Entrer pour commencer");
 
     std::vector<std::string>liste_string2;
     liste_string2.push_back("Difficulté : (Facile) Moyen Difficile");
@@ -150,7 +150,7 @@ void menu::boucle(fenetre &f){
                 }
                 if (f.getEvent().key.code == sf::Keyboard::Up){
                     choix--;
-                    if(choix<0)
+                    if(choix<1)
                         choix=liste_string2.size()-1;
                     sf.modifRectV2(choix+1,sf::Color::Green);
                 }
@@ -162,6 +162,7 @@ void menu::boucle(fenetre &f){
                     //sf.modifRect(liste_string2.size()+1,sf::Vector2f(f.getLargeur(),f.getHauteur()/12),sf::Vector2f(0,(choix*f.getHauteur()/10)+20));
                 }
                 if (f.getEvent().key.code == sf::Keyboard::Left){
+
                     string n="";
                     if(choix==0){
                             difficulte--;
@@ -229,6 +230,7 @@ void menu::boucle(fenetre &f){
 					_config.set_infoT(1, std::to_string((int)musique));
                 }
                 if (f.getEvent().key.code == sf::Keyboard::Right){
+
                     string n="";
                     if(choix==0){
                             difficulte++;

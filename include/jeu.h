@@ -20,8 +20,11 @@ class jeu
         ~jeu();
 
     void boucle(fenetre &f);
+	void start();
 
     private:
+
+		int numeroDePartie = 1;
 
 		config _config;
 
