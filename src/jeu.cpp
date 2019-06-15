@@ -8,7 +8,7 @@
 void jeu::start() {
 
 	if (numeroDePartie - 1 == 5) {
-		exit(0);
+		fin = true;
 	}
 
 	listes_son.clear();
@@ -31,7 +31,7 @@ void jeu::start() {
 				liste_bot.push_back(bot_num);
 			}
 			else if (nb == 8) {
-				bot bot_num(1);
+				bot bot_num(0);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
@@ -42,6 +42,7 @@ void jeu::start() {
 				j_creer.setSpawn(y, x);
 				j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
 				j_creer.donner_texture_2(texture_dessus);
+				j_creer.donner_texture_3(texture_bouclier);
 				//j_creer.donnerTaille_fenetre(f);///CHANGER ET DONNEZ JUSTE LES BONNES VALEURS
 				liste_player.push_back(j_creer);
 			}
@@ -104,17 +105,17 @@ void jeu::boucle(fenetre &f){
 	//liste_explosions.reserve(255);
 
     /// // POUR LES JOUEURS CREER // ///
+	texture_bouclier.loadFromFile("design/bouclier.png");
     texture_char.loadFromFile("design/char.png");
     texture_dessus.loadFromFile("design/dessus.png");
     liste_player.reserve(joueurs);
     /// /// /// /// /// /// /// /// ///
-
     sf.donne(1,0,1);
     f.getWin().setMouseCursorVisible(false);
 
     sf.creerSprite("design/viseur.png",sf::Vector2f(0,0),sf::Vector2f(1,1));
-    sf.creerTexte("Vie : 5 | Niveau : 1 | Difficulté : Normal | Map aléatoire : Non",sf::Vector2f(f.getLargeur()/3.5,f.getHauteur()/20),25,sf::Color::Black);
-
+    sf.creerTexte("Mana : 100 | Vie : 5 | Niveau : 1 | Difficulté : Normal | Map aléatoire : Non",sf::Vector2f(f.getLargeur()/3.5,f.getHauteur()/20),25,sf::Color::Black);
+	
 	//if (mapMod == 0) {
 		start();
 	//}
@@ -191,9 +192,8 @@ void jeu::boucle(fenetre &f){
 
 
 		if (liste_player.size() == 0) {
-			fin = true;
-			menu objet_menu;
-			objet_menu.boucle(f);
+			numeroDePartie = 1;
+			start();
 
 		}
 
@@ -204,6 +204,7 @@ void jeu::boucle(fenetre &f){
                 mun_creer.donner_pos_des(liste_player.at(z).getPosition(),sf::Vector2f(x,y));
                 liste_munition.push_back(mun_creer);
             }
+			liste_player.at(z).bouclier();
          }
 
 		 
@@ -395,7 +396,23 @@ void jeu::boucle(fenetre &f){
 
         for(int nb=0;nb<liste_player.size();nb++){
             for(int a=0;a<liste_munition.size();a++){
-                if(liste_munition.at(a).check_col(liste_player.at(nb).getPosition())){
+
+				if (Map.get_num(liste_munition.at(a).getPosition()) == Map.get_num(liste_player.at(nb).getPosition()) && liste_munition.at(a).getInvul() == false && liste_player.at(nb).get_bouclierb()==false) {
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
+					sons.at(sons.size() - 1).play();
+					explosion _explosion;
+					_explosion.transfere(liste_player.at(nb).getPosition());
+					_explosion.donner_texture(texture_explosion);
+					liste_explosions.push_back(_explosion);
+					liste_player.erase(liste_player.begin() + nb);
+					toucherJ = true;
+					break;
+				}
+
+               /* if(liste_munition.at(a).check_col(liste_player.at(nb).getPosition())){
 					sf::Sound son;
 					sons.push_back(son);
 					sons.at(sons.size() - 1).setVolume(volume_son);
@@ -409,7 +426,7 @@ void jeu::boucle(fenetre &f){
                     toucherJ=true;
 
                     break;
-                }
+                }*/
             }
             if(!toucherJ){
                 liste_player.at(nb).diriger_canon(globalPosition);
@@ -447,7 +464,22 @@ void jeu::boucle(fenetre &f){
 					toucher = true;
 					break;
 				}*/
-                if(liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())){
+				//std::cout << " bool : " << liste_munition.at(ab).getInvul();
+				if (Map.get_num(liste_munition.at(ab).getPosition())== Map.get_num(liste_bot.at(nbd).getPosition())&& liste_munition.at(ab).getInvul()==false) {
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
+					sons.at(sons.size() - 1).play();
+					explosion _explosion;
+					_explosion.transfere(liste_bot.at(nbd).getPosition());
+					_explosion.donner_texture(texture_explosion);
+					liste_explosions.push_back(_explosion);
+					liste_bot.erase(liste_bot.begin() + nbd);
+					toucher = true;
+					break;
+				}
+                /*if(liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())){
 					sf::Sound son;
 					sons.push_back(son);
 					sons.at(sons.size() - 1).setVolume(volume_son);
@@ -460,7 +492,7 @@ void jeu::boucle(fenetre &f){
                     liste_bot.erase(liste_bot.begin()+nbd);
                     toucher=true;
                     break;
-                }
+                }*/
             }
 
             if(!toucher){
@@ -490,6 +522,8 @@ void jeu::boucle(fenetre &f){
         f.getWin().display();
 
     }
+	menu objet_menu;
+	objet_menu.boucle(f);
 
 }
 

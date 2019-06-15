@@ -55,6 +55,18 @@ int la_map::get_block_2(int y,int x){
 
 }
 
+int la_map::get_id(sf::Vector2f position1, sf::Vector2f position2) {
+	int x1 = position1.x / 64;
+	int y1 = position1.y / 64;
+	int x2 = position2.x / 64;
+	int y2 = position2.y / 64;
+	if (x1 < x_taille && y1 < y_taille && x2 < x_taille && y2 < y_taille) {
+
+
+
+	}
+}
+
 void la_map::charger(int numero){
 
 std::ifstream file;

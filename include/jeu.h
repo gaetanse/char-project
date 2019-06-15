@@ -47,6 +47,7 @@ class jeu
         ///objets
         la_map Map;
 
+		sf::Texture texture_bouclier;
         sf::Texture texture_char;
         sf::Texture texture_dessus;
         sf::Texture texture_map;

@@ -18,6 +18,7 @@ class la_map
         int get_block(sf::Vector2f position);
         int get_block_2(int y,int x);
         int get_num(sf::Vector2f position);
+		int get_id(sf::Vector2f position1, sf::Vector2f position2);
 
     private:
 

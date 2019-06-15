@@ -36,12 +36,12 @@ class munition
 
         void bouger(float temps_recup){
 
-            if(invul.Wait_Temps(1.0))
+            if(invul.Wait_Temps(0.2))
                 invulnerable=false;
 
             sf::Vector2f vitesse = globalPosition - position_dep;
             test = vitesse /  ( static_cast<float>(sqrt(pow(vitesse.x,2)+pow(vitesse.y,2))));
-            float speed = 550;
+            float speed = 600;
             sprite.move(test*temps_recup*speed);
 
         }

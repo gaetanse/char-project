@@ -37,6 +37,9 @@ void donner_texture(sf::Texture &texture){
 void donner_texture_2(sf::Texture &texture){
     sprite2.setTexture(texture);
 }
+void donner_texture_3(sf::Texture &texture){
+    sprite3.setTexture(texture);
+}
 
     bool tirer(){
 
@@ -99,12 +102,32 @@ void donner_texture_2(sf::Texture &texture){
 		int getX() { return x; }
 		int getY() { return y; }
 
+		void bouclier() {
+
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+				if (mana > 0) {
+					if (t_bouclier.Wait_Temps(0.1)) {
+						mana--;
+						bouclierb = true;
+					}
+				}
+			}
+			else {
+				bouclierb = false;
+			}
+			
+		}
+
+		bool get_bouclierb() { return bouclierb; }
+
     private:
 
     int numero_joueur=0;
 
     sf::Sprite sprite;
     sf::Sprite sprite2;
+	sf::Sprite sprite3;
     int vie=5;
     int fenetre_x=0;
     int fenetre_y=0;
@@ -122,6 +145,10 @@ void donner_texture_2(sf::Texture &texture){
     int max_munition=0;
 
     float ancienne_pos_cannon=0;
+
+	temps t_bouclier;
+	int mana = 100;
+	bool bouclierb = false;
 
 };
 

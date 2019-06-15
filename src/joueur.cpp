@@ -10,13 +10,25 @@ joueur::joueur()
     sprite.setOrigin(sf::Vector2f(15,15));
     sprite2.setScale(2,2);
     sprite2.setOrigin(sf::Vector2f(15,20));
+	sprite3.setScale(3, 3);
+	sprite3.setOrigin(sf::Vector2f(16, 16));
 }
 
 void joueur::affichage(sf::RenderWindow &window){
 
+	if (t_bouclier.Wait_Temps(0.5)) {
+		if(mana<100)
+			mana++;
+}
+
 window.draw(sprite);
 sprite2.setPosition(sprite.getPosition().x-1,sprite.getPosition().y);
+sprite3.setPosition(sprite.getPosition().x, sprite.getPosition().y);
 window.draw(sprite2);
+if (bouclierb) {
+	window.draw(sprite3);
+}
+	
 
 }
 
@@ -127,8 +139,6 @@ return 1;
 }
 
 int joueur::deplacement_complexe(int touche,float time_r){
-
-	std::cout << "bouge a droite /" << touche << " / " << time_r << std::endl;
 
 sf::Vector2f movement(0.f, 0.f);
 if(touche==71){///gauche
