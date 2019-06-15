@@ -16,17 +16,31 @@ bot::bot(int id)
 	if (numero == 0) {
 		sprite.setColor(sf::Color::Yellow);
 		sprit_cannon.setColor(sf::Color::Yellow);
-		bouclierb = false;
 	}
 	else if (numero == 1) {
 		sprite.setColor(sf::Color::Green);
 		sprit_cannon.setColor(sf::Color::Green);
-		bouclierb = false;
 	}
 	else if (numero == 2) {
 		sprite.setColor(sf::Color::Red);
 		sprit_cannon.setColor(sf::Color::Red);
-		//bouclierb = true;
+		a_bouclier = true; 
+		vitesse_a = 3;
+		vitesse_b = 3;
+	}
+	else if (numero == 3) {
+		sprite.setColor(sf::Color::Magenta);
+		sprit_cannon.setColor(sf::Color::Magenta); 
+		a_bouclier = true;
+		vitesse_a = 2;
+		vitesse_b = 2;
+	}
+	else if (numero == 4) {
+		sprite.setColor(sf::Color::Transparent);
+		sprit_cannon.setColor(sf::Color::Transparent);
+		a_bouclier = true;
+		vitesse_a = 1;
+		vitesse_b = 1;
 	}
 }
 
@@ -91,12 +105,30 @@ bool bot::tirer() {
 			return false;
 	}
 	else if (numero == 1) {
-		if (t_reload.Wait_Temps(2.0))
+		if (t_reload.Wait_Temps(3.0))
 			return true;
 		else
 			return false;
 	}
 	else if (numero == 2) {
+		if (t_reload.Wait_Temps(2.5))
+			return true;
+		else
+			return false;
+	}
+	else if (numero == 3) {
+		if (t_reload.Wait_Temps(2.0))
+			return true;
+		else
+			return false;
+	}
+	else if (numero == 4) {
+		if (t_reload.Wait_Temps(1.5))
+			return true;
+		else
+			return false;
+	}
+	else if (numero == 5) {
 		if (t_reload.Wait_Temps(1.0))
 			return true;
 		else
@@ -107,8 +139,22 @@ sf::Vector2f bot::getPosition(){
     return sprite.getPosition();
 }
 void bot::tournerLeViseur(sf::Vector2f LeVector){
-            float result = atan2 ( LeVector.y-sprit_cannon.getPosition().y , LeVector.x-sprit_cannon.getPosition().x ) * 180 / PI + 90;
-            sprit_cannon.setRotation(result);
+
+
+	float result=0;
+
+	if (rotation > 360)
+		rotation = 0;
+	else
+		rotation++;
+
+			if (numero == 0) {
+				result = rotation;
+			}
+			else {
+				result = atan2(LeVector.y - sprit_cannon.getPosition().y, LeVector.x - sprit_cannon.getPosition().x) * 180 / PI + 90;
+			}
+			sprit_cannon.setRotation(result);
 }
 void bot::affichage(sf::RenderWindow &window){
 	/*
@@ -136,11 +182,6 @@ window.draw(sprite);
 sprit_cannon.setPosition(sprite.getPosition().x-1,sprite.getPosition().y);
 window.draw(sprit_cannon);
 
-}
-
-void bot::diriger_canon(sf::Vector2i position){
-    float result = atan2 ( position.y-sprit_cannon.getPosition().y , position.x-sprit_cannon.getPosition().x ) * 180 / PI + 90;
-    sprit_cannon.setRotation(result);
 }
 
 bot::~bot()

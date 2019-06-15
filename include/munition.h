@@ -120,6 +120,8 @@ class munition
             return vie_avant_casser;
         }
 
+		bool get_est_e() { return est_enemie; }
+
     private:
 		sf::Vector2f test;
 		bool change=false;
@@ -134,6 +136,7 @@ class munition
         bool invulnerable=true;
 		float speed = 600;
 		float bonus = 0;
+		bool est_enemie = false;
 };
 
 #endif // MUNITION_H

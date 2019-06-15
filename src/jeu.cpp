@@ -4,7 +4,7 @@
 
 #define mode false /// TRUE = mode loris / FALSE = mode Gaetan
 #define blocks 10 /// nb de block existant dans le dossier blocks
-#define partie_max 7 /// nb de maps max
+#define partie_max 10 /// nb de maps max
 
 void jeu::start(fenetre& f) {
 
@@ -26,27 +26,48 @@ void jeu::start(fenetre& f) {
 	for (int y = 0; y < 17; y++) {
 		for (int x = 0; x < 30; x++) {
 			int nb = Map.get_block_2(y, x);
-			if (nb == 7) {
+			if (nb == 5) {
 				bot bot_num(0);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
 				liste_bot.push_back(bot_num);
+				Map.set_block(y, x, 1);
 			}
-			else if (nb == 8) {
+			else if (nb == 6) {
 				bot bot_num(1);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
 				liste_bot.push_back(bot_num);
+				Map.set_block(y, x, 1);
 			}
-			else if (nb == 9) {
+			else if (nb == 7) {
 				bot bot_num(2);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
 				bot_num.donner_texture_3(texture_bouclier);
 				liste_bot.push_back(bot_num);
+				Map.set_block(y, x, 1);
+			}
+			else if (nb == 8) {
+				bot bot_num(3);
+				bot_num.setSpawn(y, x);
+				bot_num.donner_texture(texture_char);
+				bot_num.donner_texture_2(texture_dessus);
+				bot_num.donner_texture_3(texture_bouclier);
+				liste_bot.push_back(bot_num);
+				Map.set_block(y, x, 1);
+			}
+			else if (nb == 9) {
+				bot bot_num(4);
+				bot_num.setSpawn(y, x);
+				bot_num.donner_texture(texture_char);
+				bot_num.donner_texture_2(texture_dessus);
+				bot_num.donner_texture_3(texture_bouclier);
+				liste_bot.push_back(bot_num);
+				Map.set_block(y, x, 1);
 			}
 			else if (nb == 3) {
 				joueur j_creer;
@@ -56,6 +77,7 @@ void jeu::start(fenetre& f) {
 				j_creer.donner_texture_3(texture_bouclier);
 				//j_creer.donnerTaille_fenetre(f);///CHANGER ET DONNEZ JUSTE LES BONNES VALEURS
 				liste_player.push_back(j_creer);
+				Map.set_block(y, x, 1);
 			}
 		}
 	}
@@ -394,7 +416,7 @@ void jeu::boucle(fenetre &f){
 
 			int nb = Map.get_block(sf::Vector2f(liste_munition.at(nbe).getPosition()));
 
-			if (nb == 2) {
+			if (nb == 2|| nb == 4) {
 				if (liste_munition.at(nbe).getVie() > 0) {
 					liste_munition.at(nbe).changer_sens();
 				}
@@ -480,22 +502,31 @@ void jeu::boucle(fenetre &f){
 
 			//if(liste_bot.at(nbd).get_bouclierb())
 
+			if(liste_bot.at(nbd).get_a_bouclier()){
+
 			if(liste_bot.at(nbd).get_bouclierb()==false)
 				liste_bot.at(nbd).timer();
 
 			//if (liste_bot.at(nbd).get_bouclierb() == true)
 				liste_bot.at(nbd).timer2();
 
-				//liste_bot.at(nbd).set_bouclierb();
+			}
 
-            if(liste_bot.at(nbd).tirer()){
-                if(liste_player.size()>0){
-                munition mun_creer(liste_bot.at(nbd).get_numero());
-                mun_creer.donner_texture(texture_munition);
-                mun_creer.donner_pos_des_h(liste_bot.at(nbd).getPosition(),liste_player.at(0).getPosition());
-                liste_munition.push_back(mun_creer);
-                }
-            }
+				//liste_bot.at(nbd).set_bouclierb();
+				if (liste_bot.at(nbd).get_numero() != 0) {
+					if (liste_bot.at(nbd).tirer()) {
+						if (liste_player.size() > 0) {
+							munition mun_creer(liste_bot.at(nbd).get_numero());
+							mun_creer.donner_texture(texture_munition);
+							mun_creer.donner_pos_des_h(liste_bot.at(nbd).getPosition(), liste_player.at(0).getPosition());
+							liste_munition.push_back(mun_creer);
+						}
+					}
+				}
+
+
+
+            
 
             for(int ab=0;ab<liste_munition.size();ab++){
 				/*if (liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())) {
@@ -514,7 +545,7 @@ void jeu::boucle(fenetre &f){
 				}*/
 				//std::cout << " bool : " << liste_munition.at(ab).getInvul();
 
-				if (Map.get_num(liste_munition.at(ab).getPosition()) == Map.get_num(liste_bot.at(nbd).getPosition()) && liste_munition.at(ab).getInvul() == false) {
+				if (Map.get_num(liste_munition.at(ab).getPosition()) == Map.get_num(liste_bot.at(nbd).getPosition()) && liste_munition.at(ab).getInvul() == false && liste_munition.at(ab).get_est_e()==false) {
 
 					//if (liste_bot.at(nbd).get_numero() == 2) {
 					if (liste_bot.at(nbd).get_bouclierb() == false) {

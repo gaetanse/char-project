@@ -20,6 +20,13 @@ class la_map
         int get_num(sf::Vector2f position);
 		int get_id(sf::Vector2f position1, sf::Vector2f position2);
 
+		void set_block(int y, int x,int val) {
+
+			if (y < y_taille && x < x_taille)
+				mapDonne[y][x]=val+48;
+
+		}
+
     private:
 
 		int mapDonne[y_taille][x_taille] = {0};

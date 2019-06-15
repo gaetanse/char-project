@@ -62,9 +62,11 @@ class bot
 
 		}
 
+		bool get_a_bouclier() { return a_bouclier; }
+
 		void timer() {
 			if (munition_bouclier > 0) {
-				if (t_bouclier_load.Wait_Temps(2.0)) {
+				if (t_bouclier_load.Wait_Temps(vitesse_a)) {
 					munition_bouclier--;
 					bouclierb = true;
 				}
@@ -73,7 +75,7 @@ class bot
 
 		void timer2() {
 			if(bouclierb){
-				if (t_bouclier_load2.Wait_Temps(2.0)) {
+				if (t_bouclier_load2.Wait_Temps(vitesse_b)) {
 					bouclierb = false;
 				}
 			}
@@ -106,6 +108,9 @@ class bot
 		bool bouclierb = false;
 		sf::Sprite sprite3;
 
+		float vitesse_a = 0;
+		float vitesse_b = 0;
+
 	int numero = 0;
 
     pathfinding path;
@@ -126,6 +131,10 @@ class bot
     std::vector<int>test_chemin;
     std::vector<bool>bool_chemin;
     std::vector<int>nb_chemin;
+
+	bool a_bouclier = false;
+
+	float rotation = 0;
 
 };
 
