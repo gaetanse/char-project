@@ -4,11 +4,14 @@
 
 #define mode false /// TRUE = mode loris / FALSE = mode Gaetan
 #define blocks 10 /// nb de block existant dans le dossier blocks
+#define partie_max 7 /// nb de maps max
 
-void jeu::start() {
+void jeu::start(fenetre& f) {
 
-	if (numeroDePartie - 1 == 5) {
+	if (numeroDePartie - 1 == partie_max) {
 		fin = true;
+		menu objet_menu;
+		objet_menu.boucle(f);
 	}
 
 	listes_son.clear();
@@ -24,17 +27,25 @@ void jeu::start() {
 		for (int x = 0; x < 30; x++) {
 			int nb = Map.get_block_2(y, x);
 			if (nb == 7) {
-				bot bot_num(1);
+				bot bot_num(0);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
 				liste_bot.push_back(bot_num);
 			}
 			else if (nb == 8) {
-				bot bot_num(0);
+				bot bot_num(1);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
+				liste_bot.push_back(bot_num);
+			}
+			else if (nb == 9) {
+				bot bot_num(2);
+				bot_num.setSpawn(y, x);
+				bot_num.donner_texture(texture_char);
+				bot_num.donner_texture_2(texture_dessus);
+				bot_num.donner_texture_3(texture_bouclier);
 				liste_bot.push_back(bot_num);
 			}
 			else if (nb == 3) {
@@ -110,14 +121,21 @@ void jeu::boucle(fenetre &f){
     texture_dessus.loadFromFile("design/dessus.png");
     liste_player.reserve(joueurs);
     /// /// /// /// /// /// /// /// ///
-    sf.donne(1,0,1);
+    sf.donne(3,0,2);
     f.getWin().setMouseCursorVisible(false);
 
     sf.creerSprite("design/viseur.png",sf::Vector2f(0,0),sf::Vector2f(1,1));
-    sf.creerTexte("Mana : 100 | Vie : 5 | Niveau : 1 | Difficulté : Normal | Map aléatoire : Non",sf::Vector2f(f.getLargeur()/3.5,f.getHauteur()/20),25,sf::Color::Black);
+	sf.creerSprite("design/coeur.png", sf::Vector2f(100, 25), sf::Vector2f(1, 1));
+	sf.creerSprite("design/shield.png", sf::Vector2f(100, 75), sf::Vector2f(1, 1)); 
+
+	sf.creerTexte(" : 5 ", sf::Vector2f(140, 75), 25, sf::Color::Black);
+	sf.creerTexte(" : 100", sf::Vector2f(140,25), 25, sf::Color::Black);
+
+
+    sf.creerTexte("Niveau : 1 | Difficulté : Normal | Map aléatoire : Non",sf::Vector2f(f.getLargeur()/3.5,f.getHauteur()/20),25,sf::Color::Black);
 	
 	//if (mapMod == 0) {
-		start();
+		start(f);
 	//}
 
 	/*for (int b = 0; b < liste_player.size(); b++) {
@@ -187,19 +205,27 @@ void jeu::boucle(fenetre &f){
 			//refaire les chargements perso et ia
 			//numeroDePartie++;
 			finDePartie = true;
-			start();
+			start(f);
 		}
 
 
 		if (liste_player.size() == 0) {
-			numeroDePartie = 1;
-			start();
 
+			if (vie == 1) {
+				numeroDePartie = 1;
+				vie = 5;
+				start(f);
+			}
+			else {
+				vie--;
+				numeroDePartie--;
+				start(f);
+			}
 		}
 
          for(int z=0;z<liste_player.size();z++){
             if(liste_player.at(z).tirer()){
-                munition mun_creer;
+                munition mun_creer(99);
                 mun_creer.donner_texture(texture_munition);
                 mun_creer.donner_pos_des(liste_player.at(z).getPosition(),sf::Vector2f(x,y));
                 liste_munition.push_back(mun_creer);
@@ -346,7 +372,7 @@ void jeu::boucle(fenetre &f){
             if(f.getEvent().type == sf::Event::MouseMoved){
 
                 globalPosition = sf::Mouse::getPosition();
-                float x=globalPosition.x;float y=globalPosition.y;
+                float x=globalPosition.x-15;float y=globalPosition.y-15;
                 sf.setPos_sprite(0,sf::Vector2f(x,y));
                 sf::Vector2f test = sf::Vector2f(x,y);
 
@@ -412,6 +438,18 @@ void jeu::boucle(fenetre &f){
 					break;
 				}
 
+				if (Map.get_num(liste_munition.at(a).getPosition()) == Map.get_num(liste_player.at(nb).getPosition_bouclier()) && liste_player.at(nb).get_bouclierb() == true) {
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(0));
+					sons.at(sons.size() - 1).play();
+					if (liste_munition.at(a).changer_sens() == false) {
+						liste_munition.erase(liste_munition.begin() + a);
+					}
+					break;
+				}
+
                /* if(liste_munition.at(a).check_col(liste_player.at(nb).getPosition())){
 					sf::Sound son;
 					sons.push_back(son);
@@ -440,9 +478,19 @@ void jeu::boucle(fenetre &f){
 
         for(int nbd=0;nbd<liste_bot.size();nbd++){
 
+			//if(liste_bot.at(nbd).get_bouclierb())
+
+			if(liste_bot.at(nbd).get_bouclierb()==false)
+				liste_bot.at(nbd).timer();
+
+			//if (liste_bot.at(nbd).get_bouclierb() == true)
+				liste_bot.at(nbd).timer2();
+
+				//liste_bot.at(nbd).set_bouclierb();
+
             if(liste_bot.at(nbd).tirer()){
                 if(liste_player.size()>0){
-                munition mun_creer;
+                munition mun_creer(liste_bot.at(nbd).get_numero());
                 mun_creer.donner_texture(texture_munition);
                 mun_creer.donner_pos_des_h(liste_bot.at(nbd).getPosition(),liste_player.at(0).getPosition());
                 liste_munition.push_back(mun_creer);
@@ -465,7 +513,29 @@ void jeu::boucle(fenetre &f){
 					break;
 				}*/
 				//std::cout << " bool : " << liste_munition.at(ab).getInvul();
-				if (Map.get_num(liste_munition.at(ab).getPosition())== Map.get_num(liste_bot.at(nbd).getPosition())&& liste_munition.at(ab).getInvul()==false) {
+
+				if (Map.get_num(liste_munition.at(ab).getPosition()) == Map.get_num(liste_bot.at(nbd).getPosition()) && liste_munition.at(ab).getInvul() == false) {
+
+					//if (liste_bot.at(nbd).get_numero() == 2) {
+					if (liste_bot.at(nbd).get_bouclierb() == false) {
+						sf::Sound son;
+						sons.push_back(son);
+						sons.at(sons.size() - 1).setVolume(volume_son);
+						sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(1));
+						sons.at(sons.size() - 1).play();
+						explosion _explosion;
+						_explosion.transfere(liste_bot.at(nbd).getPosition());
+						_explosion.donner_texture(texture_explosion);
+						liste_explosions.push_back(_explosion);
+						liste_bot.erase(liste_bot.begin() + nbd);
+						toucher = true;
+						break;
+					}
+//
+					
+				}
+
+				/*else if (Map.get_num(liste_munition.at(ab).getPosition())== Map.get_num(liste_bot.at(nbd).getPosition())&& liste_munition.at(ab).getInvul()==false && liste_bot.at(nbd).get_bouclierb()==false) {
 					sf::Sound son;
 					sons.push_back(son);
 					sons.at(sons.size() - 1).setVolume(volume_son);
@@ -478,7 +548,7 @@ void jeu::boucle(fenetre &f){
 					liste_bot.erase(liste_bot.begin() + nbd);
 					toucher = true;
 					break;
-				}
+				}*/
                 /*if(liste_munition.at(ab).check_col(liste_bot.at(nbd).getPosition())){
 					sf::Sound son;
 					sons.push_back(son);
@@ -517,13 +587,37 @@ void jeu::boucle(fenetre &f){
 			}
 		}
 
+		if (liste_player.size() > 0) {
+
+			std::string besoin1 = std::to_string(liste_player.at(0).getBval());
+			std::string besoin2 = std::to_string(vie);
+
+			std::string besoin = "Niveau : ";
+			besoin += std::to_string(numeroDePartie-1);
+			besoin += " | Mode : ";
+			if(diff==1)
+				besoin += "Facile";
+			else if (diff == 2)
+				besoin += "Moyen";
+			else if (diff == 3)
+				besoin += "Difficile";
+			besoin += " | Type de carte : ";
+			if(mapMod)
+				besoin += "Basique";
+			else
+				besoin += "Aléatoire";
+
+				sf.modifText(0, besoin1);
+				sf.modifText(1, besoin2);
+				sf.modifText(2, besoin);
+
+		}
+
         sf.affichage(f.getWin());
 
         f.getWin().display();
 
     }
-	menu objet_menu;
-	objet_menu.boucle(f);
 
 }
 

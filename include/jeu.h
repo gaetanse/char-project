@@ -20,7 +20,7 @@ class jeu
         ~jeu();
 
     void boucle(fenetre &f);
-	void start();
+	void start(fenetre& f);
 
     private:
 
@@ -41,6 +41,7 @@ class jeu
 		std::vector<sf::Sound>sons;
 
         int modeDeJeu=0; /// 0 = Facile / 1 = Moyen / 2 = Difficile / 3 = Impossible
+		int vie = 5;
 
         sf::Vector2i globalPosition;
 

@@ -11,13 +11,22 @@ bot::bot(int id)
     sprit_cannon.setScale(2,2);
     sprit_cannon.setPosition(32,32);
     sprit_cannon.setOrigin(sf::Vector2f(15,20));
+	sprite3.setScale(3, 3);
+	sprite3.setOrigin(sf::Vector2f(16, 16));
 	if (numero == 0) {
 		sprite.setColor(sf::Color::Yellow);
 		sprit_cannon.setColor(sf::Color::Yellow);
+		bouclierb = false;
 	}
 	else if (numero == 1) {
 		sprite.setColor(sf::Color::Green);
 		sprit_cannon.setColor(sf::Color::Green);
+		bouclierb = false;
+	}
+	else if (numero == 2) {
+		sprite.setColor(sf::Color::Red);
+		sprit_cannon.setColor(sf::Color::Red);
+		//bouclierb = true;
 	}
 }
 
@@ -82,7 +91,16 @@ bool bot::tirer() {
 			return false;
 	}
 	else if (numero == 1) {
-		return false;
+		if (t_reload.Wait_Temps(2.0))
+			return true;
+		else
+			return false;
+	}
+	else if (numero == 2) {
+		if (t_reload.Wait_Temps(1.0))
+			return true;
+		else
+			return false;
 	}
 }
 sf::Vector2f bot::getPosition(){
@@ -93,6 +111,26 @@ void bot::tournerLeViseur(sf::Vector2f LeVector){
             sprit_cannon.setRotation(result);
 }
 void bot::affichage(sf::RenderWindow &window){
+	/*
+	if (t_bouclier.Wait_Temps(1))
+		if (mana < 100)
+			mana += 20;*/
+
+	if (bouclierb) {
+
+		if (rotate < 360)
+			rotate += 7;
+		else
+			rotate = 0;
+
+		if (t_bouclier_load.Wait_Temps(0.01))
+			sprite3.setRotation(rotate);
+
+
+		sprite3.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+		window.draw(sprite3);
+
+	}
 
 window.draw(sprite);
 sprit_cannon.setPosition(sprite.getPosition().x-1,sprite.getPosition().y);

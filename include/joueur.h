@@ -20,6 +20,7 @@ class joueur
 		void respawn() {};
 
         sf::Vector2f getPosition();
+		sf::Vector2f getPosition_bouclier();
 
 
 void donnerTaille_fenetre(fenetre &fenetre){
@@ -43,7 +44,7 @@ void donner_texture_3(sf::Texture &texture){
 
     bool tirer(){
 
-		if (t_reload.Wait_Temps(1.0)) {
+		if (t_reload.Wait_Temps(0.5)) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				return true;
 			}
@@ -102,15 +103,20 @@ void donner_texture_3(sf::Texture &texture){
 		int getX() { return x; }
 		int getY() { return y; }
 
+		int getBval() { return mana; }
+
 		void bouclier() {
 
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 				if (mana > 0) {
-					if (t_bouclier.Wait_Temps(0.1)) {
+					bouclierb = true;
+					//if (t_bouclier.Wait_Temps(0.05)) {
 						mana--;
-						bouclierb = true;
-					}
+					//}
+				}
+				else {
+					bouclierb = false;
 				}
 			}
 			else {
@@ -146,6 +152,8 @@ void donner_texture_3(sf::Texture &texture){
 
     float ancienne_pos_cannon=0;
 
+	float rotate = 0;
+	temps t_bouclier_load;
 	temps t_bouclier;
 	int mana = 100;
 	bool bouclierb = false;

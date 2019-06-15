@@ -16,10 +16,24 @@ joueur::joueur()
 
 void joueur::affichage(sf::RenderWindow &window){
 
-	if (t_bouclier.Wait_Temps(0.5)) {
+	if (t_bouclier.Wait_Temps(1))
 		if(mana<100)
-			mana++;
-}
+			mana+=25;
+
+	if (mana > 100)
+		mana = 100;
+
+	if (bouclierb) {
+
+		if (rotate < 360)
+			rotate+=7;
+		else
+			rotate = 0;
+
+		if (t_bouclier_load.Wait_Temps(0.01))
+			sprite3.setRotation(rotate);
+
+	}
 
 window.draw(sprite);
 sprite2.setPosition(sprite.getPosition().x-1,sprite.getPosition().y);
@@ -39,6 +53,10 @@ void joueur::diriger_canon(sf::Vector2i position){
 
 sf::Vector2f joueur::getPosition(){
     return sprite.getPosition();
+}
+
+sf::Vector2f joueur::getPosition_bouclier() {
+	return sprite3.getPosition();
 }
 
 

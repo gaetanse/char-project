@@ -17,7 +17,7 @@ public:
 	}
 
 	bool animation() {
- 		if (destruction.Wait_Temps(0.2)) {
+ 		if (destruction.Wait_Temps(0.5)) {
 			return true;
 		}
 		else {

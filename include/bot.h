@@ -39,7 +39,72 @@ class bot
 
 		}
 
+		int get_numero() { return numero; }
+
+
+		void bouclier() {
+
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+				if (mana > 0) {
+					bouclierb = true;
+					//if (t_bouclier.Wait_Temps(0.05)) {
+					mana--;
+					//}
+				}
+				else {
+					bouclierb = false;
+				}
+			}
+			else {
+				bouclierb = false;
+			}
+
+		}
+
+		void timer() {
+			if (munition_bouclier > 0) {
+				if (t_bouclier_load.Wait_Temps(2.0)) {
+					munition_bouclier--;
+					bouclierb = true;
+				}
+			}
+		}
+
+		void timer2() {
+			if(bouclierb){
+				if (t_bouclier_load2.Wait_Temps(2.0)) {
+					bouclierb = false;
+				}
+			}
+			else {
+				t_bouclier_load2.reset();
+			}
+		}
+
+		void set_bouclierb() {
+			if (munition_bouclier > 0) {
+				munition_bouclier--;
+				bouclierb = true;
+			}
+		}
+
+		bool get_bouclierb() { return bouclierb; }
+		void donner_texture_3(sf::Texture& texture) {
+			sprite3.setTexture(texture);
+			sprite3.setColor(sf::Color::Red);
+		}
+
     private:
+		bool timerok = false;
+		float rotate = 0;
+		temps t_bouclier_load2;
+		temps t_bouclier_load;
+		temps t_bouclier;
+		int mana = 100;
+		int munition_bouclier = 5;
+		bool bouclierb = false;
+		sf::Sprite sprite3;
 
 	int numero = 0;
 

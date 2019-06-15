@@ -7,7 +7,7 @@
 class munition
 {
     public:
-        munition();
+        munition(int speed);
         ~munition();
 
         bool getInvul(){
@@ -36,7 +36,9 @@ class munition
 
         void bouger(float temps_recup){
 
-            if(invul.Wait_Temps(0.2))
+		#define time_need 0.15
+
+            if(invul.Wait_Temps(time_need+bonus))
                 invulnerable=false;
 
             sf::Vector2f vitesse = globalPosition - position_dep;
@@ -88,23 +90,28 @@ class munition
 //
         }
 
-        void changer_sens(){
+        bool changer_sens(){
+
+			if (vie_avant_casser == 1) {
+				globalPosition = position_dep;
+				position_dep = -globalPosition;
+				vie_avant_casser--;
+
+				change = true;
+
+				if (sens)
+					sens = false;
+				else
+					sens = true;
+
+				return true;
+
+			}
+			else {
+				return false;
+			}
 
 
-            globalPosition = position_dep;
-            position_dep = -globalPosition;
-        vie_avant_casser--;
-
-       // std::cout << "chang" << std::endl;
-
-        //   }
-
-            change=true;
-
-           if(sens)
-                sens=false;
-            else
-                sens=true;
 
 
         }
@@ -125,6 +132,8 @@ class munition
         sf::Vector2f position_dep;
         bool sens=true;
         bool invulnerable=true;
+		float speed = 600;
+		float bonus = 0;
 };
 
 #endif // MUNITION_H
