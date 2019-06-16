@@ -27,7 +27,7 @@ void jeu::start(fenetre& f) {
 		for (int x = 0; x < 30; x++) {
 			int nb = Map.get_block_2(y, x);
 			if (nb == 5) {
-				bot bot_num(0);
+				bot bot_num(0, diff);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
@@ -35,7 +35,7 @@ void jeu::start(fenetre& f) {
 				Map.set_block(y, x, 1);
 			}
 			else if (nb == 6) {
-				bot bot_num(1);
+				bot bot_num(1, diff);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
@@ -43,7 +43,7 @@ void jeu::start(fenetre& f) {
 				Map.set_block(y, x, 1);
 			}
 			else if (nb == 7) {
-				bot bot_num(2);
+				bot bot_num(2, diff);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
@@ -52,7 +52,7 @@ void jeu::start(fenetre& f) {
 				Map.set_block(y, x, 1);
 			}
 			else if (nb == 8) {
-				bot bot_num(3);
+				bot bot_num(3, diff);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);
@@ -61,7 +61,7 @@ void jeu::start(fenetre& f) {
 				Map.set_block(y, x, 1);
 			}
 			else if (nb == 9) {
-				bot bot_num(4);
+				bot bot_num(4, diff);
 				bot_num.setSpawn(y, x);
 				bot_num.donner_texture(texture_char);
 				bot_num.donner_texture_2(texture_dessus);

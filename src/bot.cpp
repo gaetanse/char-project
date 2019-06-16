@@ -2,9 +2,10 @@
 
 #define PI 3.14159265
 
-bot::bot(int id)
+bot::bot(int id, int diff)
 {
 	numero = id;
+	difficulte = diff;
     srand (time(NULL));
     sprite.setScale(2,2);
     sprite.setOrigin(sf::Vector2f(15,15));
@@ -13,6 +14,17 @@ bot::bot(int id)
     sprit_cannon.setOrigin(sf::Vector2f(15,20));
 	sprite3.setScale(3, 3);
 	sprite3.setOrigin(sf::Vector2f(16, 16));
+
+	if (difficulte == 1) {
+		vitesse_tire = 1;
+	}
+	else if (difficulte == 2) {
+		vitesse_tire = 1.5;
+	}
+	else if (difficulte == 3) {
+		vitesse_tire = 2.0;
+	}
+
 	if (numero == 0) {
 		sprite.setColor(sf::Color::Yellow);
 		sprit_cannon.setColor(sf::Color::Yellow);
@@ -97,39 +109,46 @@ int bot::testMapDeCase(int v) {
 
 }
 
+#define vitesse_de_tire_1 5.0 
+#define vitesse_de_tire_2 4.5 
+#define vitesse_de_tire_3 4.0 
+#define vitesse_de_tire_4 3.5 
+#define vitesse_de_tire_5 3.0 
+#define vitesse_de_tire_6 2.5 
+
 bool bot::tirer() {
 	if (numero == 0) {
-		if (t_reload.Wait_Temps(3.0))
+		if (t_reload.Wait_Temps(vitesse_de_tire_1-vitesse_tire))
 			return true;
 		else
 			return false;
 	}
 	else if (numero == 1) {
-		if (t_reload.Wait_Temps(3.0))
+		if (t_reload.Wait_Temps(vitesse_de_tire_2 - vitesse_tire))
 			return true;
 		else
 			return false;
 	}
 	else if (numero == 2) {
-		if (t_reload.Wait_Temps(2.5))
+		if (t_reload.Wait_Temps(vitesse_de_tire_3 - vitesse_tire))
 			return true;
 		else
 			return false;
 	}
 	else if (numero == 3) {
-		if (t_reload.Wait_Temps(2.0))
+		if (t_reload.Wait_Temps(vitesse_de_tire_4 - vitesse_tire))
 			return true;
 		else
 			return false;
 	}
 	else if (numero == 4) {
-		if (t_reload.Wait_Temps(1.5))
+		if (t_reload.Wait_Temps(vitesse_de_tire_5 - vitesse_tire))
 			return true;
 		else
 			return false;
 	}
 	else if (numero == 5) {
-		if (t_reload.Wait_Temps(1.0))
+		if (t_reload.Wait_Temps(vitesse_de_tire_6 - vitesse_tire))
 			return true;
 		else
 			return false;

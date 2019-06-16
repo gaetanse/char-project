@@ -10,7 +10,7 @@
 class bot
 {
     public:
-        bot(int id);
+        bot(int id,int diff);
         ~bot();
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);
@@ -98,6 +98,10 @@ class bot
 		}
 
     private:
+
+		int difficulte = 0;
+		float vitesse_tire = 0;
+
 		bool timerok = false;
 		float rotate = 0;
 		temps t_bouclier_load2;
