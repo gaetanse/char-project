@@ -16,7 +16,8 @@ class joueur
         ~joueur();
 
         int deplacement_normal(int touche,float time_r);
-        void deplacement_complexe(int touche,float time_r, fenetre& f);
+        void deplacement_complexe(int touche,float time_r);
+		void deplacement_complexeJ(int touche, float time_r);
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);
 
@@ -47,15 +48,14 @@ void donner_texture_3(sf::Texture &texture){
 
 #define vitesseJoystick 15
 
-void moveViseur() {
+void moveViseurJ() {
 
-	if (sf::Joystick::isConnected(id))
-	{
+		//if(sf::Mouse::)
 
 		float x = sf::Joystick::getAxisPosition(id, sf::Joystick::U);
 		float y = sf::Joystick::getAxisPosition(id, sf::Joystick::V);
-		
-		if (x > 1&& sprite4.getPosition().x<1920) {
+
+		if (x > 1 && sprite4.getPosition().x < 1920) {
 			sprite4.move(sf::Vector2f(vitesseJoystick, 0));
 
 		}
@@ -73,22 +73,13 @@ void moveViseur() {
 
 		}
 
-	}
-	else{
-
-	//	if (f.getEvent().type == sf::Event::MouseMoved) {
-
-		sf::Vector2i globalPosition = sf::Mouse::getPosition();
-		float x = globalPosition.x - 15; float y = globalPosition.y - 15;
-		sprite4.setPosition(sf::Vector2f(x,y));
-
-	//	std::cout << "souris";
-
 	//}
 
-	}
 
+}
 
+void moveViseur(sf::Vector2f pos) {
+	sprite4.setPosition(sf::Vector2f(pos.x-15,pos.y-15));
 }
 
 void donner_texture_4(sf::Texture& texture) {
@@ -211,15 +202,17 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
 
 		bool get_bouclierb() { return bouclierb; }
 
+		int get_id() { return id; }
+
 		int getNum(int nb){
 			if (nb < nums.size()) {
 				return nums.at(nb);
 			}
 		}
 
-		void deplace_test(fenetre& f) {
+		void deplace_testJ() {
 
-			if (sf::Joystick::isConnected(id)){
+			//if (sf::Joystick::isConnected(id)) {
 
 				float x = sf::Joystick::getAxisPosition(id, sf::Joystick::X);
 				float y = sf::Joystick::getAxisPosition(id, sf::Joystick::Y);
@@ -236,26 +229,24 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
 				else if (y < -0.01) {
 					setVal(0, -30, -20, 0, 20, 0);
 				}
-			}
-			else {
+			//}
 
-				if (f.getEvent().type == sf::Event::KeyPressed) {
+		}
 
-					if (f.getEvent().key.code == sf::Keyboard::Left) {
+		void deplace_test(int nb) {
+
+					if (nb==71) {
 						setVal(-30, 0, 0, -20, 0, 20);
 					}
-					if (f.getEvent().key.code == sf::Keyboard::Right) {
+					else if (nb==72) {
 						setVal(30, 0, 0, 20, 0, -20);
 					}
-					if (f.getEvent().key.code == sf::Keyboard::Up) {
+					if (nb==73) {
 						setVal(0, -30, -20, 0, 20, 0);
 					}
-					if (f.getEvent().key.code == sf::Keyboard::Down) {
+					else if (nb==74) {
 						setVal(0, 30, 20, 0, -20, 0);
 					}
-
-				}
-			}
 
 		}
 

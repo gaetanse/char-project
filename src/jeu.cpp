@@ -160,7 +160,7 @@ void jeu::boucle(fenetre &f){
 	sf.creerTexte(" : 5 ", sf::Vector2f(160, 50), 25, sf::Color::Black);
 
 	for (int a = 0; a < joueurs; a++) {
-		sf.creerTexte(" : 100", sf::Vector2f(250 + (a * 100), 50), 25, sf::Color::Black);
+		sf.creerTexte(" : 100", sf::Vector2f(270 + (a * 100), 50), 25, sf::Color::Black);
 	}
 
 
@@ -256,13 +256,48 @@ void jeu::boucle(fenetre &f){
 			}
 		}
 
+
+		for (int nb = 0; nb < liste_player.size(); nb++) {
+
+			liste_player.at(nb).bouclier();
+
+			if (f.getEvent().type == sf::Event::JoystickMoved)
+				liste_player.at(nb).moveViseurJ();
+
+			if (liste_player.at(nb).tirer()) {
+				munition mun_creer(99);
+				mun_creer.donner_texture(texture_munition);
+				mun_creer.donner_pos_des(liste_player.at(nb).getPosition(), liste_player.at(nb).getPosViseur());
+				liste_munition.push_back(mun_creer);
+			}
+
+			if (f.getEvent().type == sf::Event::JoystickMoved) {
+
+				liste_player.at(nb).deplace_testJ();
+
+				int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(2), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(3)));
+				int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(4), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(5)));
+
+				if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
+					if (mode) {
+						liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+					}
+					else {
+						liste_player.at(nb).deplacement_complexeJ(f.getEvent().key.code, temps_recup);
+					}
+				}
+			}
+
+		}
+
 		 while (f.getWin().pollEvent(f.getEvent())) {
+
 
 			 for (int nb = 0; nb < liste_player.size(); nb++) {
 				 liste_player.at(nb).bouclier();
 
-				 if(f.getEvent().type == sf::Event::JoystickMoved|| f.getEvent().type == sf::Event::MouseMoved)
-					liste_player.at(nb).moveViseur();
+				  if (f.getEvent().type == sf::Event::MouseMoved)
+					 liste_player.at(nb).moveViseur(sf::Vector2f(sf::Mouse::getPosition()));
 
 				 if (liste_player.at(nb).tirer()) {
 					 munition mun_creer(99);
@@ -270,19 +305,22 @@ void jeu::boucle(fenetre &f){
 					 mun_creer.donner_pos_des(liste_player.at(nb).getPosition(), liste_player.at(nb).getPosViseur());
 					 liste_munition.push_back(mun_creer);
 				 }
+				  if (f.getEvent().type == sf::Event::KeyPressed) {
 
-				 liste_player.at(nb).deplace_test(f);
+					 liste_player.at(nb).deplace_test(f.getEvent().key.code);
 
-				 int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(2), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(3)));
-				 int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(4), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(5)));
+					 int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(2), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(3)));
+					 int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(4), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(5)));
 
-				 if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
-					 if (mode) {
-						 liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+					 if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
+						 if (mode) {
+							 liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+						 }
+						 else {
+							 liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						 }
 					 }
-					 else {
-						 liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup, f);
-					 }
+
 				 }
 
 			 }
