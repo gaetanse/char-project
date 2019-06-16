@@ -191,16 +191,15 @@ return 1;
 }
 
 
-#define vitesse 250
-#define vitesse_tourner 5
+#define vitesse 400
+#define vitesse_tourner 10
 
-#define vitesse1 250
-#define vitesse_tourner1 5
+#define vitesse1 400
+#define vitesse_tourner1 10
 
-void joueur::deplacement_complexe(int touche,float time_r){
+void joueur::deplacement_complexe(int touche,float time_r,fenetre &f){
 
 	sf::Vector2f movement(0.f, 0.f);
-
 
 	if (sf::Joystick::isConnected(id))
 	{
@@ -258,54 +257,58 @@ void joueur::deplacement_complexe(int touche,float time_r){
 	}
 	else {
 
+		if (f.getEvent().type == sf::Event::KeyPressed) {
 
-if(touche==71){///gauche
-    //if(sprite.getPosition().x>0){
-        if(sprite.getRotation()==270)
-            movement.x -= vitesse;
-        else
-            if((sprite.getRotation()<=90||sprite.getRotation()>270))
-                sprite.rotate(-vitesse_tourner);
-            else
-                sprite.rotate(vitesse_tourner);
-   // }
-}
-if(touche==72){///droite
-    //if(sprite.getPosition().x<fenetre_x){
-        if(sprite.getRotation()==90)
-            movement.x += vitesse;
-        else
-            if(sprite.getRotation()>=270||sprite.getRotation()<90)
-                sprite.rotate(vitesse_tourner);
-            else
-                sprite.rotate(-vitesse_tourner);
-   // }
-}
-if(touche==73){///haut
-   // if(sprite.getPosition().y>32){
-        if(sprite.getRotation()==0)
-            movement.y -= vitesse;
-        else
-            if(sprite.getRotation()<=180)
-                sprite.rotate(-vitesse_tourner);
-            else
-                sprite.rotate(vitesse_tourner);
-   // }
-}
-if(touche==74){///bas
-   // if(sprite.getPosition().y<fenetre_y-32){
-        if(sprite.getRotation()==180)
-            movement.y += vitesse;
-        else
-            if(sprite.getRotation()<=180)
-                sprite.rotate(vitesse_tourner);
-            else if(sprite.getRotation()>=180)
-                sprite.rotate(-vitesse_tourner);
-  //  }
-}
+			if (f.getEvent().key.code == sf::Keyboard::Left) {///gauche
+				//if(sprite.getPosition().x>0){
+				if (sprite.getRotation() == 270)
+					movement.x -= vitesse;
+				else
+					if ((sprite.getRotation() <= 90 || sprite.getRotation() > 270))
+						sprite.rotate(-vitesse_tourner);
+					else
+						sprite.rotate(vitesse_tourner);
+				// }
+			}
+			else if (f.getEvent().key.code == sf::Keyboard::Right) {///droite
+
+				//std::cout << "droite";
+
+				//if(sprite.getPosition().x<fenetre_x){
+				if (sprite.getRotation() == 90)
+					movement.x += vitesse;
+				else
+					if (sprite.getRotation() >= 270 || sprite.getRotation() < 90)
+						sprite.rotate(vitesse_tourner);
+					else
+						sprite.rotate(-vitesse_tourner);
+				// }
+			}
+			if (f.getEvent().key.code == sf::Keyboard::Up) {///haut
+			   // if(sprite.getPosition().y>32){
+				if (sprite.getRotation() == 0)
+					movement.y -= vitesse;
+				else
+					if (sprite.getRotation() <= 180)
+						sprite.rotate(-vitesse_tourner);
+					else
+						sprite.rotate(vitesse_tourner);
+				// }
+			}
+			else if (f.getEvent().key.code == sf::Keyboard::Down) {///bas
+			   // if(sprite.getPosition().y<fenetre_y-32){
+				if (sprite.getRotation() == 180)
+					movement.y += vitesse;
+				else
+					if (sprite.getRotation() <= 180)
+						sprite.rotate(vitesse_tourner);
+					else if (sprite.getRotation() >= 180)
+						sprite.rotate(-vitesse_tourner);
+				//  }
+			}
+		}
 	}
 	sprite.move(movement* time_r);
-
 
 }
 

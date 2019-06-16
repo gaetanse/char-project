@@ -256,15 +256,13 @@ void jeu::boucle(fenetre &f){
 			}
 		}
 
-         for(int z=0;z<liste_player.size();z++){
-			 liste_player.at(z).bouclier();
-		 }
-
-
-		 if (f.getEvent().type == sf::Event::JoystickMoved || f.getEvent().type == sf::Event::KeyPressed || f.getEvent().type == sf::Event::JoystickButtonPressed) {
-
+		 while (f.getWin().pollEvent(f.getEvent())) {
 
 			 for (int nb = 0; nb < liste_player.size(); nb++) {
+				 liste_player.at(nb).bouclier();
+
+				 if(f.getEvent().type == sf::Event::JoystickMoved|| f.getEvent().type == sf::Event::MouseMoved)
+					liste_player.at(nb).moveViseur();
 
 				 if (liste_player.at(nb).tirer()) {
 					 munition mun_creer(99);
@@ -273,131 +271,43 @@ void jeu::boucle(fenetre &f){
 					 liste_munition.push_back(mun_creer);
 				 }
 
-				 liste_player.at(nb).moveViseur(f);
+				 liste_player.at(nb).deplace_test(f);
 
-				 int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
-				 int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
+				 int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(2), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(3)));
+				 int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + liste_player.at(nb).getNum(0) + liste_player.at(nb).getNum(4), liste_player.at(nb).getPosition().y + liste_player.at(nb).getNum(1) + liste_player.at(nb).getNum(5)));
 
 				 if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
 					 if (mode) {
 						 liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
 					 }
 					 else {
-						 liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						 liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup, f);
 					 }
 				 }
 
 			 }
 
-		 }
-
-		 while (f.getWin().pollEvent(f.getEvent())) {
-
-
-
-		// }
-
             if(f.getEvent().type == sf::Event::Closed){
                 fin=true;
             }
 
-                /* for(int nb=0;nb<liste_player.size();nb++){
-                    if (sf::Joystick::isConnected(liste_player.at(nb).getNum())){
-                        if(mode)
-                            liste_player.at(nb).deplacement_normal(f.getEvent().key.code,temps_recup);
-                        else
-                            liste_player.at(nb).deplacement_complexe(f.getEvent().key.code,temps_recup);
-                    }
-                }*/
-
             if (f.getEvent().type == sf::Event::KeyPressed){
-
-
-
-				/*for (int nb = 0; nb < liste_player.size(); nb++) {
-
-					int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
-					int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
-
-					if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
-						if (mode) {
-							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-						}
-						else {
-							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-						}
-					}
-
-				}*/
-
-                if(f.getEvent().key.code == sf::Keyboard::Left){
-                    num_2y=-20;
-                    num_3y=20;
-                    num_x=-30;
-                }
-                if(f.getEvent().key.code == sf::Keyboard::Right){
-                    num_2y=20;
-                    num_3y=-20;
-                    num_x=30;
-                }
-                if(f.getEvent().key.code == sf::Keyboard::Up){
-                    num_2x=-20;
-                    num_3x=20;
-                    num_y=-30;
-                    }
-                if(f.getEvent().key.code == sf::Keyboard::Down){
-                    num_2x=20;
-                    num_3x=-20;
-                    num_y=30;
-                }
 
                 if (f.getEvent().key.code == sf::Keyboard::Escape){
                     fin=true;
-                    //delete this;
-                        //delete this;
                     menu objet_menu;
                     objet_menu.boucle(f);
-                    //delete pvalue;
                 }
 
             }
 
-
-
-			
-
         }
-
-	//	if (f.getEvent().type == sf::Event::JoystickMoved || f.getEvent().type == sf::Event::KeyPressed) {
-		/*
-
-			for (int nb = 0; nb < liste_player.size(); nb++) {
-
-				liste_player.at(nb).moveViseur(f);
-
-				int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
-				int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
-
-				if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
-					if (mode) {
-						liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-					}
-					else {
-						liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-					}
-				}
-
-			}
-			*/
-		//}
 
         f.getWin().clear(sf::Color::Blue);
         ///dessiner ici
         f.getWin().setView(view1);
         Map.afficher(f);
         f.getWin().setView(f.getWin().getDefaultView());
-
-
 
         bool touchM=false;
 
@@ -432,6 +342,9 @@ void jeu::boucle(fenetre &f){
         bool toucherJ=false;
 
         for(int nb=0;nb<liste_player.size();nb++){
+
+
+
             for(int a=0;a<liste_munition.size();a++){
 
 				if (Map.get_num(liste_munition.at(a).getPosition()) == Map.get_num(liste_player.at(nb).getPosition()) && liste_munition.at(a).getInvul() == false && liste_player.at(nb).get_bouclierb()==false && liste_munition.at(a).get_est_e() == true) {
