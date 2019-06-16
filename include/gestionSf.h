@@ -16,6 +16,7 @@ class gestionSf
         void affichage(sf::RenderWindow &win);
         void resetText();
         void resetRect();
+		int getTextSize2() { return texts.size(); }
         std::string getText(int val);
         void modifRect(unsigned int num,sf::Vector2f taille,sf::Vector2f pos);
         void modifRectV2(int choix,sf::Color couleur);

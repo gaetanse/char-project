@@ -78,6 +78,13 @@ class jeu
         bool finDePartie=true;
 		std::vector<string>listes_son;
 
+
+
+		int num_x = 0, num_y = 0;
+		int num_2x = 0, num_2y = 0;
+		int num_3x = 0, num_3y = 0;
+
+
 };
 
 #endif // JEU_H

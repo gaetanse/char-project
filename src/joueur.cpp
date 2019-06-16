@@ -190,66 +190,74 @@ sprite.move(movement*time_r);
 return 1;
 }
 
-int joueur::deplacement_complexe(int touche,float time_r){
+
+#define vitesse 250
+#define vitesse_tourner 5
+
+#define vitesse1 250
+#define vitesse_tourner1 5
+
+void joueur::deplacement_complexe(int touche,float time_r){
 
 	sf::Vector2f movement(0.f, 0.f);
-
 
 
 	if (sf::Joystick::isConnected(id))
 	{
 
 
-		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-		float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-		float x2 = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-		float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+		float x = sf::Joystick::getAxisPosition(id, sf::Joystick::X);
+		float y = sf::Joystick::getAxisPosition(id, sf::Joystick::Y);
 
-		if (x > 0.1) {
+		if (x > 1) {
+			if (sprite.getRotation() == 90)
+				movement.x += vitesse1;
+			else {
+				if (sprite.getRotation() >= 270 || sprite.getRotation() < 90)
+					sprite.rotate(vitesse_tourner1);
+				else
+					sprite.rotate(-vitesse_tourner1);
+
+			}
+		}
+
+		 else if (x < 0) {
 
 
 			if (sprite.getRotation() == 270)
-				movement.x -= vitesse;
+				movement.x -= vitesse1;
 			else
 				if ((sprite.getRotation() <= 90 || sprite.getRotation() > 270))
-					sprite.rotate(-vitesse_tourner);
+					sprite.rotate(-vitesse_tourner1);
 				else
-					sprite.rotate(vitesse_tourner);
-		}
-
-		 else if (x < 0.1) {
-			if (sprite.getRotation() == 90)
-				movement.x += vitesse;
-			else
-				if (sprite.getRotation() >= 270 || sprite.getRotation() < 90)
-					sprite.rotate(vitesse_tourner);
-				else
-					sprite.rotate(-vitesse_tourner);
+					sprite.rotate(vitesse_tourner1);
 
 		}
-		 if (y > 0.1) {
-			 if (sprite.getRotation() == 0)
-				 movement.y -= vitesse;
-			 else
-				 if (sprite.getRotation() <= 180)
-					 sprite.rotate(-vitesse_tourner);
-				 else
-					 sprite.rotate(vitesse_tourner);
-
-		}
-
-		 else if (y < 0.1) {
+		 if (y > 1) {
 			 if (sprite.getRotation() == 180)
-				 movement.y += vitesse;
+				 movement.y += vitesse1;
 			 else
 				 if (sprite.getRotation() <= 180)
-					 sprite.rotate(vitesse_tourner);
+					 sprite.rotate(vitesse_tourner1);
 				 else if (sprite.getRotation() >= 180)
-					 sprite.rotate(-vitesse_tourner);
+					 sprite.rotate(-vitesse_tourner1);
+
+		}
+
+		 else if (y < -0.01) {
+			 if (sprite.getRotation() == 0)
+				 movement.y -= vitesse1;
+			 else
+				 if (sprite.getRotation() <= 180)
+					 sprite.rotate(-vitesse_tourner1);
+				 else
+					 sprite.rotate(vitesse_tourner1);
 
 		}
 
 	}
+	else {
+
 
 if(touche==71){///gauche
     //if(sprite.getPosition().x>0){
@@ -295,9 +303,9 @@ if(touche==74){///bas
                 sprite.rotate(-vitesse_tourner);
   //  }
 }
-sprite.move(movement*time_r);
+	}
+	sprite.move(movement* time_r);
 
-return 1;
 
 }
 

@@ -16,7 +16,7 @@ class joueur
         ~joueur();
 
         int deplacement_normal(int touche,float time_r);
-        int deplacement_complexe(int touche,float time_r);
+        void deplacement_complexe(int touche,float time_r);
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);
 
@@ -47,32 +47,31 @@ void donner_texture_3(sf::Texture &texture){
 
 void moveViseur(fenetre& f) {
 
+#define vitesseJoystick 20
+
 	if (sf::Joystick::isConnected(id))
 	{
 
-		//if (f.getEvent().type == sf::Event::MouseMoved) {
-
-
-		float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-		float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+		float x = sf::Joystick::getAxisPosition(id, sf::Joystick::U);
+		float y = sf::Joystick::getAxisPosition(id, sf::Joystick::V);
 
 		
-		if (x > 0.1) {
-			sprite4.move(sf::Vector2f(1, 0));
+		if (x > 1&& sprite4.getPosition().x<f.getLargeur()) {
+			sprite4.move(sf::Vector2f(vitesseJoystick, 0));
+
+		}
+		else if (x < 0 && sprite4.getPosition().x >0) {
+			sprite4.move(sf::Vector2f(-vitesseJoystick, 0));
 
 		}
 
-		else if (x < 0.1) {
-			sprite4.move(sf::Vector2f(-1, 0));
+		if (y > 1 && sprite4.getPosition().y < f.getHauteur()) {
+			sprite4.move(sf::Vector2f(0, vitesseJoystick));
 
 		}
-		if (y > 0.1) {
-			sprite4.move(sf::Vector2f(0, 1));
-
-		}
-
-		else if (y < 0.1) {
-			sprite4.move(sf::Vector2f(0, -1));
+		else if (y < -0.01 && sprite4.getPosition().y > 0) {
+			sprite4.move(sf::Vector2f(0, -vitesseJoystick));
+			std::cout << y;
 
 		}
 
@@ -104,6 +103,9 @@ void moveViseur(fenetre& f) {
 void donner_texture_4(sf::Texture& texture) {
 	sprite4.setTexture(texture);
 }
+
+sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
+
     bool tirer(){
 
 		if (sf::Joystick::isConnected(id))

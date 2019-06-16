@@ -149,18 +149,23 @@ void jeu::boucle(fenetre &f){
 	texture_viseur.loadFromFile("design/viseur.png");
     liste_player.reserve(joueurs);
     /// /// /// /// /// /// /// /// ///
-    sf.donne(3,0,2);
+    sf.donne(3,0,2+joueurs);
     f.getWin().setMouseCursorVisible(false);
 
     sf.creerSprite("design/viseur.png",sf::Vector2f(0,0),sf::Vector2f(1,1));
-	sf.creerSprite("design/coeur.png", sf::Vector2f(100, 25), sf::Vector2f(1, 1));
-	sf.creerSprite("design/shield.png", sf::Vector2f(100, 75), sf::Vector2f(1, 1)); 
+	sf.creerSprite("design/coeur.png", sf::Vector2f(120, 50), sf::Vector2f(1, 1));
+	sf.creerSprite("design/shield.png", sf::Vector2f(220, 50), sf::Vector2f(1, 1));
 
-	sf.creerTexte(" : 5 ", sf::Vector2f(140, 75), 25, sf::Color::Black);
-	sf.creerTexte(" : 100", sf::Vector2f(140,25), 25, sf::Color::Black);
+	sf.creerTexte("Niveau : 1 | Difficulté : Normal | Map aléatoire : Non", sf::Vector2f(900, 50), 25, sf::Color::Black);
+	sf.creerTexte(" : 5 ", sf::Vector2f(160, 50), 25, sf::Color::Black);
+
+	for (int a = 0; a < joueurs; a++) {
+		sf.creerTexte(" : 100", sf::Vector2f(250 + (a * 100), 50), 25, sf::Color::Black);
+	}
 
 
-    sf.creerTexte("Niveau : 1 | Difficulté : Normal | Map aléatoire : Non",sf::Vector2f(f.getLargeur()/3.5,f.getHauteur()/20),25,sf::Color::Black);
+
+
 	
 	//if (mapMod == 0) {
 		start(f);
@@ -252,22 +257,45 @@ void jeu::boucle(fenetre &f){
 		}
 
          for(int z=0;z<liste_player.size();z++){
-            if(liste_player.at(z).tirer()){
-                munition mun_creer(99);
-                mun_creer.donner_texture(texture_munition);
-                mun_creer.donner_pos_des(liste_player.at(z).getPosition(),sf::Vector2f(x,y));
-                liste_munition.push_back(mun_creer);
-            }
-			liste_player.at(z).bouclier();
-         }
+			 liste_player.at(z).bouclier();
+		 }
 
-		 
 
-        while (f.getWin().pollEvent(f.getEvent())){
+		 if (f.getEvent().type == sf::Event::JoystickMoved || f.getEvent().type == sf::Event::KeyPressed || f.getEvent().type == sf::Event::JoystickButtonPressed) {
 
-			int num_x = 0, num_y = 0;
-			int num_2x = 0, num_2y = 0;
-			int num_3x = 0, num_3y = 0;
+
+			 for (int nb = 0; nb < liste_player.size(); nb++) {
+
+				 if (liste_player.at(nb).tirer()) {
+					 munition mun_creer(99);
+					 mun_creer.donner_texture(texture_munition);
+					 mun_creer.donner_pos_des(liste_player.at(nb).getPosition(), liste_player.at(nb).getPosViseur());
+					 liste_munition.push_back(mun_creer);
+				 }
+
+				 liste_player.at(nb).moveViseur(f);
+
+				 int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
+				 int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
+
+				 if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
+					 if (mode) {
+						 liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+					 }
+					 else {
+						 liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+					 }
+				 }
+
+			 }
+
+		 }
+
+		 while (f.getWin().pollEvent(f.getEvent())) {
+
+
+
+		// }
 
             if(f.getEvent().type == sf::Event::Closed){
                 fin=true;
@@ -283,6 +311,24 @@ void jeu::boucle(fenetre &f){
                 }*/
 
             if (f.getEvent().type == sf::Event::KeyPressed){
+
+
+
+				/*for (int nb = 0; nb < liste_player.size(); nb++) {
+
+					int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
+					int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
+
+					if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
+						if (mode) {
+							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+						}
+						else {
+							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+						}
+					}
+
+				}*/
 
                 if(f.getEvent().key.code == sf::Keyboard::Left){
                     num_2y=-20;
@@ -318,13 +364,16 @@ void jeu::boucle(fenetre &f){
 
 
 
+			
+
+        }
+
+	//	if (f.getEvent().type == sf::Event::JoystickMoved || f.getEvent().type == sf::Event::KeyPressed) {
+		/*
+
 			for (int nb = 0; nb < liste_player.size(); nb++) {
 
 				liste_player.at(nb).moveViseur(f);
-				
-				/*
-				std::cout << "joystick id: " << f.getEvent().joystickButton.joystickId << std::endl;
-				std::cout << "button: " << f.getEvent().joystickButton.button << std::endl;*/
 
 				int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
 				int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
@@ -339,8 +388,8 @@ void jeu::boucle(fenetre &f){
 				}
 
 			}
-
-        }
+			*/
+		//}
 
         f.getWin().clear(sf::Color::Blue);
         ///dessiner ici
@@ -385,7 +434,7 @@ void jeu::boucle(fenetre &f){
         for(int nb=0;nb<liste_player.size();nb++){
             for(int a=0;a<liste_munition.size();a++){
 
-				if (Map.get_num(liste_munition.at(a).getPosition()) == Map.get_num(liste_player.at(nb).getPosition()) && liste_munition.at(a).getInvul() == false && liste_player.at(nb).get_bouclierb()==false) {
+				if (Map.get_num(liste_munition.at(a).getPosition()) == Map.get_num(liste_player.at(nb).getPosition()) && liste_munition.at(a).getInvul() == false && liste_player.at(nb).get_bouclierb()==false && liste_munition.at(a).get_est_e() == true) {
 					sf::Sound son;
 					sons.push_back(son);
 					sons.at(sons.size() - 1).setVolume(volume_son);
@@ -574,8 +623,19 @@ void jeu::boucle(fenetre &f){
 
 		if (liste_player.size() > 0) {
 
-			std::string besoin1 = std::to_string(liste_player.at(0).getBval());
 			std::string besoin2 = std::to_string(vie);
+			sf.modifText(1, besoin2);
+
+			for (int a = 0; a < joueurs; a++) {
+				if (a < liste_player.size()) {
+					std::string besoin1 = std::to_string(liste_player.at(a).getBval());
+					sf.modifText(a + 2, besoin1);
+				}
+				else {
+					sf.modifText(a + 2, "MORT");
+				}
+			}
+
 
 			std::string besoin = "Niveau : ";
 			besoin += std::to_string(numeroDePartie-1);
@@ -592,9 +652,7 @@ void jeu::boucle(fenetre &f){
 			else
 				besoin += "Aléatoire";
 
-				sf.modifText(0, besoin1);
-				sf.modifText(1, besoin2);
-				sf.modifText(2, besoin);
+				sf.modifText(0, besoin);
 
 		}
 

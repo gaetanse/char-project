@@ -1,2 +1,2 @@
 audio : 40
-musique : 26
+musique : 24

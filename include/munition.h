@@ -76,7 +76,7 @@ class munition
 
             position_dep=depart;
             sprite.setPosition(depart);
-            globalPosition = sf::Vector2f(sf::Mouse::getPosition());
+            globalPosition = arriver;
           //  std::cout << "{ " << globalPosition.y << " / ";
           /*  if(globalPosition.x<0)
                 globalPosition.x+=globalPosition.x+globalPosition.x;
