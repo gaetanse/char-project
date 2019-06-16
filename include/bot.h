@@ -96,6 +96,7 @@ class bot
 			sprite3.setTexture(texture);
 			sprite3.setColor(sf::Color::Red);
 		}
+		sf::Vector2f getPosition_bouclier();
 
     private:
 

@@ -56,6 +56,10 @@ bot::bot(int id, int diff)
 	}
 }
 
+sf::Vector2f bot::getPosition_bouclier() {
+	return sprite3.getPosition();
+}
+
 int bot::check_col(sf::Vector2f test) {
 
 	if (getPosition().x > test.x - 64 && getPosition().x < test.x + 64) {

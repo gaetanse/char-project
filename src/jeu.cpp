@@ -506,6 +506,20 @@ void jeu::boucle(fenetre &f){
 					
 				}
 
+
+
+				if (Map.get_num(liste_munition.at(ab).getPosition()) == Map.get_num(liste_bot.at(nbd).getPosition_bouclier()) && liste_bot.at(nbd).get_bouclierb() == true) {
+					sf::Sound son;
+					sons.push_back(son);
+					sons.at(sons.size() - 1).setVolume(volume_son);
+					sons.at(sons.size() - 1).setBuffer(sonsBuffers.at(0));
+					sons.at(sons.size() - 1).play();
+					if (liste_munition.at(ab).changer_sens() == false) {
+						liste_munition.erase(liste_munition.begin() + ab);
+					}
+					break;
+				}
+
 				/*else if (Map.get_num(liste_munition.at(ab).getPosition())== Map.get_num(liste_bot.at(nbd).getPosition())&& liste_munition.at(ab).getInvul()==false && liste_bot.at(nbd).get_bouclierb()==false) {
 					sf::Sound son;
 					sons.push_back(son);
