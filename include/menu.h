@@ -27,7 +27,7 @@ class menu
         float musique=25;
         sf::Vector2i globalPosition;
 
-        joueur le_joueur;
+        //joueur le_joueur(0);
         sf::Texture texture_char;
         sf::Texture texture_dessus;
 

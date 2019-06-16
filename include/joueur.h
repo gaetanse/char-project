@@ -6,10 +6,13 @@
 #include "fenetre.h"
 #include "munition.h"
 
+#define tirerID 0
+#define bouclierID 1
+
 class joueur
 {
     public:
-        joueur();
+        joueur(int nb);
         ~joueur();
 
         int deplacement_normal(int touche,float time_r);
@@ -42,7 +45,80 @@ void donner_texture_3(sf::Texture &texture){
     sprite3.setTexture(texture);
 }
 
+void moveViseur(fenetre& f) {
+
+	if (sf::Joystick::isConnected(id))
+	{
+
+		//if (f.getEvent().type == sf::Event::MouseMoved) {
+
+
+		float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+		float y = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+
+		
+		if (x > 0.1) {
+			sprite4.move(sf::Vector2f(1, 0));
+
+		}
+
+		else if (x < 0.1) {
+			sprite4.move(sf::Vector2f(-1, 0));
+
+		}
+		if (y > 0.1) {
+			sprite4.move(sf::Vector2f(0, 1));
+
+		}
+
+		else if (y < 0.1) {
+			sprite4.move(sf::Vector2f(0, -1));
+
+		}
+
+			//globalPosition = sf::Mouse::getPosition();
+			//float x = globalPosition.x - 15; float y = globalPosition.y - 15;
+			//sf.setPos_sprite(0, sf::Vector2f(x, y));
+			//sf::Vector2f test = sf::Vector2f(x, y);
+
+	//	}
+
+	}
+	else{
+
+		if (f.getEvent().type == sf::Event::MouseMoved) {
+
+		sf::Vector2i globalPosition = sf::Mouse::getPosition();
+		float x = globalPosition.x - 15; float y = globalPosition.y - 15;
+		sprite4.setPosition(sf::Vector2f(x,y));
+	/*	sf.setPos_sprite(0, sf::Vector2f(x, y));
+		sf::Vector2f test = sf::Vector2f(x, y);*/
+
+	}
+
+	}
+
+
+}
+
+void donner_texture_4(sf::Texture& texture) {
+	sprite4.setTexture(texture);
+}
     bool tirer(){
+
+		if (sf::Joystick::isConnected(id))
+		{
+
+			if (t_reload.Wait_Temps(0.5)) {
+				if (sf::Joystick::isButtonPressed(id, tirerID)) {
+					return true;
+				}
+				return false;
+			}
+			return false;
+
+		}
+		else {
 
 		if (t_reload.Wait_Temps(0.5)) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -52,18 +128,8 @@ void donner_texture_3(sf::Texture &texture){
 		}
 		return false;
 
-		/*
-        if(t_reload.Wait_Temps(1)==1)
-            if(max_munition<1)
-                max_munition++;
+		}
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&&max_munition>0){
-                max_munition--;
-                return true;
-            }
-
-            return false;
-			*/
         }
 
         int testMapDeCase(int v){
@@ -108,20 +174,46 @@ void donner_texture_3(sf::Texture &texture){
 		void bouclier() {
 
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-				if (mana > 0) {
-					bouclierb = true;
-					//if (t_bouclier.Wait_Temps(0.05)) {
+			if (sf::Joystick::isConnected(id))
+			{
+
+				if (sf::Joystick::isButtonPressed(id, bouclierID)) {
+					if (mana > 0) {
+						bouclierb = true;
+						//if (t_bouclier.Wait_Temps(0.05)) {
 						mana--;
-					//}
+						//}
+					}
+					else {
+						bouclierb = false;
+					}
 				}
 				else {
 					bouclierb = false;
 				}
+
 			}
-			else {
-				bouclierb = false;
+
+			else
+			{
+
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+					if (mana > 0) {
+						bouclierb = true;
+						//if (t_bouclier.Wait_Temps(0.05)) {
+						mana--;
+						//}
+					}
+					else {
+						bouclierb = false;
+					}
+				}
+				else {
+					bouclierb = false;
+				}
+
 			}
+
 			
 		}
 
@@ -129,11 +221,13 @@ void donner_texture_3(sf::Texture &texture){
 
     private:
 
-    int numero_joueur=0;
+		int id = 0;
+		int numero_joueur=0;
 
     sf::Sprite sprite;
     sf::Sprite sprite2;
 	sf::Sprite sprite3;
+	sf::Sprite sprite4;
     int vie=5;
     int fenetre_x=0;
     int fenetre_y=0;

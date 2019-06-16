@@ -54,6 +54,7 @@ class jeu
         sf::Texture texture_map;
         sf::Texture texture_munition;
 		sf::Texture texture_explosion;
+		sf::Texture texture_viseur;
         sf::Image test_map;
 
         sf::View view1;

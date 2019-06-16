@@ -74,12 +74,12 @@ void menu::boucle(fenetre &f){
     sf.creerSprite("design/viseur.png",sf::Vector2f(0,0),sf::Vector2f(1,1));
 
 
-    texture_char.loadFromFile("design/char.png");
+   /* texture_char.loadFromFile("design/char.png");
     texture_dessus.loadFromFile("design/dessus.png");
     le_joueur.donner_texture(texture_char);
     le_joueur.donner_texture_2(texture_dessus);
     le_joueur.donnerTaille_fenetre(f);
-    le_joueur.spawn_milieu();
+    le_joueur.spawn_milieu();*/
 
 
 	son = std::stof(_config.get_infoT(0));
@@ -310,8 +310,8 @@ void menu::boucle(fenetre &f){
     f.getWin().clear(sf::Color(234,223,223));
     ///dessiner ici
     sf.affichage(f.getWin());
-    le_joueur.diriger_canon(globalPosition);
-    le_joueur.affichage(f.getWin());
+   // le_joueur.diriger_canon(globalPosition);
+   // le_joueur.affichage(f.getWin());
 
     f.getWin().display();
 

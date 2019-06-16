@@ -70,13 +70,18 @@ void jeu::start(fenetre& f) {
 				Map.set_block(y, x, 1);
 			}
 			else if (nb == 3) {
-				joueur j_creer;
-				j_creer.setSpawn(y, x);
-				j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
-				j_creer.donner_texture_2(texture_dessus);
-				j_creer.donner_texture_3(texture_bouclier);
-				//j_creer.donnerTaille_fenetre(f);///CHANGER ET DONNEZ JUSTE LES BONNES VALEURS
-				liste_player.push_back(j_creer);
+
+				for (int a = 0; a < joueurs; a++) {
+					std::cout << "joueurs créer";
+					joueur j_creer(a);
+					j_creer.setSpawn(y, x);
+					j_creer.donner_texture(texture_char);///ASSEMBLEZ EN UNE CHOSE
+					j_creer.donner_texture_2(texture_dessus);
+					j_creer.donner_texture_3(texture_bouclier);
+					j_creer.donner_texture_4(texture_viseur);
+					liste_player.push_back(j_creer);
+				}
+
 				Map.set_block(y, x, 1);
 			}
 		}
@@ -141,6 +146,7 @@ void jeu::boucle(fenetre &f){
 	texture_bouclier.loadFromFile("design/bouclier.png");
     texture_char.loadFromFile("design/char.png");
     texture_dessus.loadFromFile("design/dessus.png");
+	texture_viseur.loadFromFile("design/viseur.png");
     liste_player.reserve(joueurs);
     /// /// /// /// /// /// /// /// ///
     sf.donne(3,0,2);
@@ -259,24 +265,24 @@ void jeu::boucle(fenetre &f){
 
         while (f.getWin().pollEvent(f.getEvent())){
 
+			int num_x = 0, num_y = 0;
+			int num_2x = 0, num_2y = 0;
+			int num_3x = 0, num_3y = 0;
+
             if(f.getEvent().type == sf::Event::Closed){
                 fin=true;
             }
 
-                 for(int nb=0;nb<liste_player.size();nb++){
+                /* for(int nb=0;nb<liste_player.size();nb++){
                     if (sf::Joystick::isConnected(liste_player.at(nb).getNum())){
                         if(mode)
                             liste_player.at(nb).deplacement_normal(f.getEvent().key.code,temps_recup);
                         else
                             liste_player.at(nb).deplacement_complexe(f.getEvent().key.code,temps_recup);
                     }
-                }
+                }*/
 
             if (f.getEvent().type == sf::Event::KeyPressed){
-
-                int num_x=0, num_y=0;
-                int num_2x=0, num_2y=0;
-                int num_3x=0, num_3y=0;
 
                 if(f.getEvent().key.code == sf::Keyboard::Left){
                     num_2y=-20;
@@ -299,87 +305,6 @@ void jeu::boucle(fenetre &f){
                     num_y=30;
                 }
 
-               for(int nb=0;nb<liste_player.size();nb++){
-
-				   int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
-				   int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
-				   /*
-
-				   std::cout << nb_1 << " /// " << nb_2 << std::endl;
-
-				   std::vector<int>list;
-				   list.push_back(1);
-				   list.push_back(3);
-				   list.push_back(7);
-
-				   for (int a = 0; a < list.size(); a++) {
-					   if (nb_1 == a && nb_2 == a) {
-						   if (mode) {
-							   liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-						   }
-						   else {
-							   liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-						   }
-					   }
-				   }*/
-				   
-				   if ((nb_1 == 1 && nb_2 == 1)|| (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
-					   if (mode) {
-						   liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-					   }
-					   else {
-						   liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-					   }
-				   }
-				   /*
-                if(Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x+num_x+num_2x,liste_player.at(0).getPosition().y+num_y+num_2y))==1&&
-                    Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x+num_x+num_3x,liste_player.at(0).getPosition().y+num_y+num_3y))==1){
-                    if(joueurs==1){
-
-						std::cout << "HUM";
-
-                        if(mode){
-							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-						}
-                        else{
-							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-						}
-                    }
-                }
-
-				if (Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_2x, liste_player.at(0).getPosition().y + num_y + num_2y)) == 7 &&
-					Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_3x, liste_player.at(0).getPosition().y + num_y + num_3y)) == 7) {
-					if (joueurs == 1) {
-
-						std::cout << "HUM";
-
-						if (mode) {
-							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-						}
-						else {
-							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-						}
-					}
-				}
-
-				if (Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_2x, liste_player.at(0).getPosition().y + num_y + num_2y)) == 3 &&
-					Map.get_block(sf::Vector2f(liste_player.at(0).getPosition().x + num_x + num_3x, liste_player.at(0).getPosition().y + num_y + num_3y)) == 3) {
-					if (joueurs == 1) {
-
-						std::cout << "HUM";
-
-						if (mode) {
-							liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
-						}
-						else {
-							liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
-						}
-					}
-				}
-
-				*/
-                }
-
                 if (f.getEvent().key.code == sf::Keyboard::Escape){
                     fin=true;
                     //delete this;
@@ -391,14 +316,29 @@ void jeu::boucle(fenetre &f){
 
             }
 
-            if(f.getEvent().type == sf::Event::MouseMoved){
 
-                globalPosition = sf::Mouse::getPosition();
-                float x=globalPosition.x-15;float y=globalPosition.y-15;
-                sf.setPos_sprite(0,sf::Vector2f(x,y));
-                sf::Vector2f test = sf::Vector2f(x,y);
 
-            }
+			for (int nb = 0; nb < liste_player.size(); nb++) {
+
+				liste_player.at(nb).moveViseur(f);
+				
+				/*
+				std::cout << "joystick id: " << f.getEvent().joystickButton.joystickId << std::endl;
+				std::cout << "button: " << f.getEvent().joystickButton.button << std::endl;*/
+
+				int nb_1 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_2x, liste_player.at(nb).getPosition().y + num_y + num_2y));
+				int nb_2 = Map.get_block(sf::Vector2f(liste_player.at(nb).getPosition().x + num_x + num_3x, liste_player.at(nb).getPosition().y + num_y + num_3y));
+
+				if ((nb_1 == 1 && nb_2 == 1) || (nb_1 == 3 && nb_2 == 3) || (nb_1 == 7 && nb_2 == 7)) {
+					if (mode) {
+						liste_player.at(nb).deplacement_normal(f.getEvent().key.code, temps_recup);
+					}
+					else {
+						liste_player.at(nb).deplacement_complexe(f.getEvent().key.code, temps_recup);
+					}
+				}
+
+			}
 
         }
 
