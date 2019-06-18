@@ -8,16 +8,20 @@
 
 #define tirerID 0
 #define bouclierID 1
+#define explosionID 2
+
+#define temps_explosion 5.0
 
 class joueur
 {
     public:
+		joueur();
         joueur(int nb);
         ~joueur();
 
         int deplacement_normal(int touche,float time_r);
-        void deplacement_complexe(int touche,float time_r);
-		void deplacement_complexeJ(int touche, float time_r);
+        void deplacement_complexe(float time_r);
+		void deplacement_complexeJ(float time_r);
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);
 
@@ -200,6 +204,34 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
 			
 		}
 
+		bool explosion() {
+
+			if (sf::Joystick::isConnected(id))
+			{
+				if (sf::Joystick::isButtonPressed(id, explosionID)) {
+					if (t_explosion.Wait_Temps(temps_explosion)) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			else
+			{
+
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
+					if (t_explosion.Wait_Temps(temps_explosion)) {
+						return true;
+					}
+				}
+				return false;
+
+			}
+
+		}
+
+		float get_t_e() { return t_explosion.recup_temps(); }
+
 		bool get_bouclierb() { return bouclierb; }
 
 		int get_id() { return id; }
@@ -212,7 +244,7 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
 
 		void deplace_testJ() {
 
-			//if (sf::Joystick::isConnected(id)) {
+			if (sf::Joystick::isConnected(id)) {
 
 				float x = sf::Joystick::getAxisPosition(id, sf::Joystick::X);
 				float y = sf::Joystick::getAxisPosition(id, sf::Joystick::Y);
@@ -229,22 +261,22 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
 				else if (y < -0.01) {
 					setVal(0, -30, -20, 0, 20, 0);
 				}
-			//}
+			}
 
 		}
 
-		void deplace_test(int nb) {
+		void deplace_test() {
 
-					if (nb==71) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 						setVal(-30, 0, 0, -20, 0, 20);
 					}
-					else if (nb==72) {
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 						setVal(30, 0, 0, 20, 0, -20);
 					}
-					if (nb==73) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 						setVal(0, -30, -20, 0, 20, 0);
 					}
-					else if (nb==74) {
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 						setVal(0, 30, 20, 0, -20, 0);
 					}
 
@@ -282,9 +314,6 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
     int x=0;
     int y=0;
 
-    float vitesse=500;
-    int vitesse_tourner=10;
-
     float sens_x=0;
     float sens_y=0;
 
@@ -292,6 +321,8 @@ sf::Vector2f getPosViseur() { return sprite4.getPosition(); }
     int max_munition=0;
 
     float ancienne_pos_cannon=0;
+
+	temps t_explosion;
 
 	float rotate = 0;
 	temps t_bouclier_load;

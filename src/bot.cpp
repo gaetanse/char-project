@@ -2,7 +2,7 @@
 
 #define PI 3.14159265
 
-bot::bot(int id, int diff)
+bot::bot(int id, const int diff)
 {
 	numero = id;
 	difficulte = diff;

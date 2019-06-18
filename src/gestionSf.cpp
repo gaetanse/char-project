@@ -19,11 +19,14 @@ void gestionSf::affichage(sf::RenderWindow &win)
 {
 
     for(int b=0;b<rectangles.size();b++)
-        win.draw(rectangles.at(b));
+		if(b< rectangles.size())
+			win.draw(rectangles.at(b));
     for(int e=0;e<texts.size();e++)
-        win.draw(texts.at(e));
+		if(e< texts.size())
+			win.draw(texts.at(e));
     for(int a=0;a<sprites.size();a++)
-        win.draw(sprites.at(a));
+		if(a< sprites.size())
+			win.draw(sprites.at(a));
 
 }
 
@@ -50,6 +53,22 @@ void gestionSf::creerSprite(std::string textureNom,sf::Vector2f position,sf::Vec
     sprite.setPosition(position);
     sprite.setScale(taille);
     sprites.push_back(sprite);
+}
+
+void gestionSf::creerSprite(std::string textureNom, sf::Vector2f position, sf::Vector2f taille, sf::IntRect taillerectT)
+{
+	sf::Texture texture;
+	texture.loadFromFile(textureNom);
+
+	texture.setSmooth(qualite);
+
+	textures.push_back(texture);
+	sf::Sprite sprite;
+	sprite.setTexture(textures.back());
+	sprite.setPosition(position);
+	sprite.setScale(taille);
+	sprite.setTextureRect(taillerectT);
+	sprites.push_back(sprite);
 }
 
 long gestionSf::getTextSize(){return texts.size();}
@@ -101,7 +120,8 @@ void gestionSf::resetRect(){
 }
 
 void gestionSf::modifText(unsigned int num,std::string texte){
-    texts.at(num).setString(texte);
+	if(num< texts.size())
+		texts.at(num).setString(texte);
 }
 
 gestionSf::~gestionSf()

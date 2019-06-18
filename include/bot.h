@@ -10,7 +10,7 @@
 class bot
 {
     public:
-        bot(int id,int diff);
+        bot(int id,const int diff);
         ~bot();
         void affichage(sf::RenderWindow &window);
         void diriger_canon(sf::Vector2i);

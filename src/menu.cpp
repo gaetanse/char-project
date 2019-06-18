@@ -14,14 +14,6 @@ menu::menu()
 
 void menu::boucle(fenetre &f){
 
-	//if (_config.get_existe()) {
-		///affecter toutes les valeurs
-		//char* pEnd;
-
-	//std::cout << _config.get_infoT(0);
-		//std::cout << son;
-	//}
-
     f.getWin().setMouseCursorVisible(false);
 
     std::vector<std::string>liste_string;
@@ -44,12 +36,6 @@ void menu::boucle(fenetre &f){
             sf.creerRectangle(sf::Vector2f(f.getLargeur()/4,(a*f.getHauteur()/10)+a*2+64),sf::Vector2f(f.getLargeur()/2,f.getHauteur()/12),sf::Color(128,128,128),4,sf::Color::Red);
             sf.creerTexte(liste_string.at(a),sf::Vector2f(f.getLargeur()/2.3,a*f.getHauteur()/10+45+50),25,sf::Color::White);
     }
-
-    /*for(unsigned int a=0;a<liste_string2.size();a++){
-            ///créer un rectangle et un texte avec des parametres donner
-            sf.creerRectangle(sf::Vector2f(f.getLargeur()/4,(a*f.getHauteur()/10)+a*2+20+(liste_string.size()*200)),sf::Vector2f(f.getLargeur()/2,f.getHauteur()/11),sf::Color(128,100,128),4,sf::Color::Green);
-            sf.creerTexte(liste_string2.at(a),sf::Vector2f(f.getLargeur()/3,a*f.getHauteur()/10+45+10+(liste_string.size()*200)),25,sf::Color::White);
-    }*/
 
     int a=0;
     sf.creerRectangle(sf::Vector2f(f.getLargeur()/15,(0*f.getHauteur()/10)+0*2+20+(liste_string.size()*200)),sf::Vector2f(f.getLargeur()/4,f.getHauteur()/11),sf::Color(128,100,128),4,sf::Color::Green);
@@ -74,14 +60,6 @@ void menu::boucle(fenetre &f){
     sf.creerSprite("design/viseur.png",sf::Vector2f(0,0),sf::Vector2f(1,1));
 
 
-   /* texture_char.loadFromFile("design/char.png");
-    texture_dessus.loadFromFile("design/dessus.png");
-    le_joueur.donner_texture(texture_char);
-    le_joueur.donner_texture_2(texture_dessus);
-    le_joueur.donnerTaille_fenetre(f);
-    le_joueur.spawn_milieu();*/
-
-
 	son = std::stof(_config.get_infoT(0));
 	musique = std::stof(_config.get_infoT(1));
 
@@ -100,11 +78,10 @@ void menu::boucle(fenetre &f){
 
 	sf.modifText(4+1, n);
 
-    //sf.creerRectangle(sf::Vector2f(f.getLargeur()/4,(choix*f.getHauteur()/10)+choix*2+5+(liste_string.size()*250)),sf::Vector2f(f.getLargeur()/2,f.getHauteur()/12),sf::Color::Transparent,8,sf::Color::White);
-
     while(!fin){
 
         while(f.getWin().pollEvent(f.getEvent())){
+
 
              if(f.getEvent().type == sf::Event::MouseMoved){
 
@@ -120,23 +97,6 @@ void menu::boucle(fenetre &f){
                 choix=999;
             }
 
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                //if(choix>=0&&choix<liste_string.size())
-                   //fin=true;
-            }
-
-            if(f.getEvent().type == sf::Event::MouseMoved){
-
-                /*sf::Vector2i globalPosition = sf::Mouse::getPosition();
-                for(unsigned int b=0;b<liste_string.size();b++){
-                    if(globalPosition.y>b*(f.getHauteur()/12)+b*16+8&&globalPosition.y<b*(f.getHauteur()/12)+liste_string.size()*19+b*16+8){
-                        choix=b;
-                        sf.modifRect(liste_string.size(),sf::Vector2f(f.getLargeur(),f.getHauteur()/12),sf::Vector2f(0,(b*f.getHauteur()/10)+choix*2+16));
-                    }
-                }*/
-
-            }
-
             if (f.getEvent().type == sf::Event::KeyPressed){
 
 				
@@ -144,8 +104,8 @@ void menu::boucle(fenetre &f){
                 if (f.getEvent().key.code == sf::Keyboard::Escape){
                     fin=true;
                     f.close();
+					exit(0);
                    /* delete this;
-                    exit(0);
                     break;*/
                 }
                 if (f.getEvent().key.code == sf::Keyboard::Up){
@@ -307,11 +267,11 @@ void menu::boucle(fenetre &f){
 
     }
 
+	
+
     f.getWin().clear(sf::Color(234,223,223));
     ///dessiner ici
     sf.affichage(f.getWin());
-   // le_joueur.diriger_canon(globalPosition);
-   // le_joueur.affichage(f.getWin());
 
     f.getWin().display();
 

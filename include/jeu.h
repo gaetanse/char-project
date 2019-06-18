@@ -20,28 +20,32 @@ class jeu
         ~jeu();
 
     void boucle(fenetre &f);
-	void start(fenetre& f);
+	void start();
 
     private:
 
-		int numeroDePartie = 1;
+		bool testqdqzd = false;
 
-		config _config;
+		int nb = 0;
+
+		float temps_recup = 0;
+
+		unsigned int numeroDePartie = 1;
+
+		//config _config;
 
 		audio _audio;
 
+		/// INFOS RECUPERER
         int diff=0;
         int mapMod=0;
         int joueurs=0;
         float volume_son=0;
         float volume_audio=0;
 
-        /// AUDIO
-        std::vector<sf::SoundBuffer>sonsBuffers;
-		std::vector<sf::Sound>sons;
+		bool estMort = false;
 
-        int modeDeJeu=0; /// 0 = Facile / 1 = Moyen / 2 = Difficile / 3 = Impossible
-		int vie = 5;
+		int vie = 0;
 
         sf::Vector2i globalPosition;
 

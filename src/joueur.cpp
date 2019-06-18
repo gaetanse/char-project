@@ -3,6 +3,22 @@
 #include <math.h>       /* atan2 */
 #define PI 3.14159265
 
+joueur::joueur()
+{
+	id = 0;
+	srand(time(NULL));
+	sprite.setPosition(250, 250);
+	sprite.setScale(2, 2);
+	sprite.setOrigin(sf::Vector2f(15, 15));
+	sprite2.setScale(2, 2);
+	sprite2.setOrigin(sf::Vector2f(15, 20));
+	sprite3.setScale(3, 3);
+	sprite3.setOrigin(sf::Vector2f(16, 16));
+	sprite4.setScale(1, 1);
+	sprite4.setOrigin(sf::Vector2f(8, 8));
+	sprite4.setPosition(sf::Vector2f(250, 250));
+}
+
 joueur::joueur(int nb)
 {
 	id = nb;
@@ -95,7 +111,7 @@ sf::Vector2f joueur::getPosition_bouclier() {
 
 
 int joueur::deplacement_normal(int touche,float time_r){
-
+	/*/
 	vitesse = 500;
 
 sf::Vector2f movement(0.f, 0.f);
@@ -188,75 +204,62 @@ if(touche==74){
         }
 
 }
-sprite.move(movement*time_r);
+sprite.move(movement*time_r);*/
 return 1;
 }
 
 
-#define vitesse 500
+#define vitesse 400
 #define vitesse_tourner 10
 
-#define vitesse1 250
-#define vitesse_tourner1 5 
+#define vitesse1 400
+#define vitesse_tourner1 10 
 
-void joueur::deplacement_complexe(int touche,float time_r){
+void joueur::deplacement_complexe(float time_r){
 
-	sf::Vector2f movement(0.f, 0.f);
+		sf::Vector2f movement(0.f, 0.f);
 
-	//	if (f.getEvent().type == sf::Event::KeyPressed) {
-
-			if (touche==71) {///gauche
-				//if(sprite.getPosition().x>0){
-				if (sprite.getRotation() == 270)
-					movement.x -= vitesse;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {///gauche
+			if (sprite.getRotation() == 270)
+				movement.x -= vitesse;
+			else
+				if ((sprite.getRotation() <= 90 || sprite.getRotation() > 270))
+					sprite.rotate(-vitesse_tourner);
 				else
-					if ((sprite.getRotation() <= 90 || sprite.getRotation() > 270))
-						sprite.rotate(-vitesse_tourner);
-					else
-						sprite.rotate(vitesse_tourner);
-				// }
-			}
-			 if (touche==72) {///droite
-
-				//std::cout << "droite";
-
-				//if(sprite.getPosition().x<fenetre_x){
-				if (sprite.getRotation() == 90)
-					movement.x += vitesse;
+					sprite.rotate(vitesse_tourner);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {///droite
+			if (sprite.getRotation() == 90)
+				movement.x += vitesse;
+			else
+				if (sprite.getRotation() >= 270 || sprite.getRotation() < 90)
+					sprite.rotate(vitesse_tourner);
 				else
-					if (sprite.getRotation() >= 270 || sprite.getRotation() < 90)
-						sprite.rotate(vitesse_tourner);
-					else
-						sprite.rotate(-vitesse_tourner);
-				// }
-			}
-			if (touche==73) {///haut
-			   // if(sprite.getPosition().y>32){
-				if (sprite.getRotation() == 0)
-					movement.y -= vitesse;
+					sprite.rotate(-vitesse_tourner);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {///haut
+			if (sprite.getRotation() == 0)
+				movement.y -= vitesse;
+			else
+				if (sprite.getRotation() <= 180)
+					sprite.rotate(-vitesse_tourner);
 				else
-					if (sprite.getRotation() <= 180)
-						sprite.rotate(-vitesse_tourner);
-					else
-						sprite.rotate(vitesse_tourner);
-				// }
-			}
-			 if (touche==74) {///bas
-			   // if(sprite.getPosition().y<fenetre_y-32){
-				if (sprite.getRotation() == 180)
-					movement.y += vitesse;
-				else
-					if (sprite.getRotation() <= 180)
-						sprite.rotate(vitesse_tourner);
-					else if (sprite.getRotation() >= 180)
-						sprite.rotate(-vitesse_tourner);
-				//  }
-			}
-	sprite.move(movement* time_r);
+					sprite.rotate(vitesse_tourner);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {///bas
+			if (sprite.getRotation() == 180)
+				movement.y += vitesse;
+			else
+				if (sprite.getRotation() <= 180)
+					sprite.rotate(vitesse_tourner);
+				else if (sprite.getRotation() >= 180)
+					sprite.rotate(-vitesse_tourner);
+		}
+		sprite.move(movement* time_r);
 
 }
 
-void joueur::deplacement_complexeJ(int touche, float time_r) {
+void joueur::deplacement_complexeJ(float time_r) {
 
 	sf::Vector2f movement(0.f, 0.f);
 

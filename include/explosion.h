@@ -7,13 +7,21 @@
 class explosion
 {
 public:
-	explosion();
+	explosion(int nb);
 	~explosion();
 
 	void transfere(sf::Vector2f pos) {
+		if (id) {
+			sprite.setColor(sf::Color::Black);
+			sprite.setScale(4, 4);
+			sprite.setPosition(pos);
+			sprite.setOrigin(sf::Vector2f(40, 40));
+		}
+		else {
 		sprite.setScale(1, 1);
 		sprite.setPosition(pos);
 		sprite.setOrigin(sf::Vector2f(40, 40));
+		}
 	}
 
 	bool animation() {
@@ -46,6 +54,7 @@ public:
 
 private:
 
+	int id = 0;
 	int x, y = 0;
 	temps destruction;
 	sf::Sprite sprite;
