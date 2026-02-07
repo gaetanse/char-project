@@ -181,6 +181,7 @@ int la_map::get_id(sf::Vector2f position1, sf::Vector2f position2) {
 
 
 	}
+	return 0;
 }
 
 void la_map::charger(int numero){
